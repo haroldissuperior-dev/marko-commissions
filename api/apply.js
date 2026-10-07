@@ -55,9 +55,9 @@ export default async function handler(req, res) {
   if (
     contact.length < 2 ||
     !email.includes("@") ||
-    experience.length < 10 ||
-    scenario.length < 10 ||
-    why.length < 4
+    experience.length < 2 ||
+    scenario.length < 2 ||
+    why.length < 2
   ) {
     return res.status(400).json({ ok: false, error: "Missing required fields." });
   }

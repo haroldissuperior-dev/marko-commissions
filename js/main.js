@@ -514,7 +514,9 @@ if (form) {
           ? "A few too many tries in a row — wait ten minutes, or reach us here:"
           : err && err.status === 503
             ? "Applications are paused right now — reach us here:"
-            : "Couldn't reach the queue from this page — reach us here instead:";
+            : err && err.status === 400
+              ? "That didn't come through complete — double-check your answers, or reach us here:"
+              : "Couldn't reach the queue from this page — reach us here instead:";
       const acts = document.createElement("span");
       acts.className = "form-actions";
       acts.innerHTML =
