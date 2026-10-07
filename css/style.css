@@ -1176,3 +1176,78 @@ html.motion-on .grain { animation: grain 1.4s steps(4) infinite; }
 }
 
 .spot { transition: border-color 0.4s ease; }
+
+/* preloader */
+.loader {
+  position: fixed; inset: 0; z-index: 700;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 20px; background: var(--bg);
+  transition: opacity 0.7s ease, visibility 0.7s;
+}
+.loader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader img { width: 76px; height: auto; filter: drop-shadow(0 10px 40px rgba(255,255,255,.2)); }
+html.motion-on .loader img { animation: loaderpop 1s var(--ease); }
+@keyframes loaderpop { 0% { scale: 0.8; opacity: 0; } 100% { scale: 1; opacity: 1; } }
+.loader-word { font-family: var(--disp); font-weight: 500; font-size: 15px; color: #b6b6bd; }
+.loader-word b { font-weight: 700; color: #fff; }
+.loader-line { width: 170px; height: 1px; background: var(--line); overflow: hidden; }
+.loader-line i {
+  display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #fff, rgba(255,255,255,.4));
+  transform: scaleX(0); transform-origin: 0 50%;
+}
+html.motion-on .loader-line i { animation: loadline 0.95s var(--ease) 0.1s forwards; }
+@keyframes loadline { to { transform: scaleX(1); } }
+
+/* custom cursor (fine pointers, motion on) */
+.cursor-dot, .cursor-ring {
+  position: fixed; left: 0; top: 0; z-index: 650; pointer-events: none;
+  border-radius: 50%; opacity: 0;
+}
+.cursor-dot { width: 7px; height: 7px; background: #fff; mix-blend-mode: difference; }
+.cursor-ring {
+  width: 34px; height: 34px; border: 1.5px solid rgba(255,255,255,.5);
+  transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s ease, opacity 0.3s ease;
+}
+.cursor-ring.hot { width: 56px; height: 56px; border-color: rgba(255,255,255,.9); }
+html.has-cursor .cursor-dot, html.has-cursor .cursor-ring { opacity: 1; }
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+
+/* ambient hero orbs */
+.hero-orbs { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.hero-orbs i {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 68%);
+  filter: blur(46px);
+}
+.hero-orbs .o1 { width: 520px; height: 520px; left: -140px; top: 8%; }
+.hero-orbs .o2 { width: 420px; height: 420px; right: -120px; bottom: 4%; }
+html.motion-on .hero-orbs .o1 { animation: drift1 19s ease-in-out infinite alternate; }
+html.motion-on .hero-orbs .o2 { animation: drift2 24s ease-in-out infinite alternate; }
+@keyframes drift1 { to { transform: translate(90px, 70px) scale(1.12); } }
+@keyframes drift2 { to { transform: translate(-80px, -60px) scale(0.92); } }
+
+/* staggered card list reveals */
+html.motion-on .card .card-list li {
+  opacity: 0; transform: translateX(-10px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  transition-delay: calc(0.3s + var(--i, 0) * 75ms);
+}
+html.motion-on .card.in .card-list li { opacity: 1; transform: none; }
+html.motion-on .card:hover .card-list li { transition-delay: 0s; }
+
+/* headline words lift on hover */
+html.motion-on .hero-h1 .w { transition-property: opacity, transform, filter; }
+html.motion-on .hero-h1 .w:hover { transform: translateY(-5px); }
+
+/* error banner actions */
+.form-actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.form-actions a {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 500;
+  border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 15px;
+  transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s var(--ease);
+}
+.form-actions a:hover { border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.05); transform: translateY(-1px); }
+.form-actions a.pa-discord { border-color: rgba(88,101,242,.5); }
+.form-actions a.pa-discord:hover { border-color: rgba(88,101,242,.9); background: rgba(88,101,242,.12); }
+.form-actions img { width: 15px; height: 15px; }

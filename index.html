@@ -32,6 +32,12 @@
   </script>
 </head>
 <body>
+  <div class="loader" id="loader" aria-hidden="true">
+    <img src="assets/logo.png" alt="" width="72" height="54">
+    <p class="loader-word"><b>Marko's</b>&nbsp;Commissions</p>
+    <span class="loader-line"><i></i></span>
+  </div>
+
   <a class="skip" href="#overview">Skip to content</a>
 
   <canvas id="bg" aria-hidden="true"></canvas>
@@ -80,6 +86,7 @@
 
   <main id="page">
     <section class="hero" id="top">
+      <div class="hero-orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i></div>
       <div class="hero-inner" id="hero-inner">
         <div class="hero-logo-wrap li" id="hero-logo-wrap" aria-hidden="true">
           <div class="logo-ring"></div>
@@ -230,10 +237,10 @@
               you actually need instead of pulled out of a template.
             </p>
             <ul class="card-list">
-              <li>Logos &amp; brand identity</li>
-              <li>Banners, headers &amp; overlays</li>
-              <li>UI &amp; UX mockups</li>
-              <li>Emotes, thumbnails &amp; assets</li>
+              <li style="--i:0">Logos &amp; brand identity</li>
+              <li style="--i:1">Banners, headers &amp; overlays</li>
+              <li style="--i:2">UI &amp; UX mockups</li>
+              <li style="--i:3">Emotes, thumbnails &amp; assets</li>
             </ul>
             <p class="card-foot">You get the layered source files</p>
           </article>
@@ -249,10 +256,10 @@
               command to a full moderation, events and logging setup.
             </p>
             <ul class="card-list">
-              <li>Custom bots, built from zero</li>
-              <li>Moderation, utility &amp; automation</li>
-              <li>Dashboards &amp; web integrations</li>
-              <li>Hosting, deployment &amp; maintenance</li>
+              <li style="--i:0">Custom bots, built from zero</li>
+              <li style="--i:1">Moderation, utility &amp; automation</li>
+              <li style="--i:2">Dashboards &amp; web integrations</li>
+              <li style="--i:3">Hosting, deployment &amp; maintenance</li>
             </ul>
             <p class="card-foot">Documented and ready to host</p>
           </article>

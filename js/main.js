@@ -434,8 +434,8 @@ function setMail(open) {
   if (open) mailModal.querySelector(".mail-opt")?.focus();
 }
 
-document.querySelectorAll("[data-mail-open]").forEach((el) => {
-  el.addEventListener("click", () => setMail(true));
+document.addEventListener("click", (e) => {
+  if (e.target.closest("[data-mail-open]")) setMail(true);
 });
 mailModal?.querySelectorAll("[data-mail-close]").forEach((el) => {
   el.addEventListener("click", () => setMail(false));
@@ -478,6 +478,7 @@ if (form) {
     const btn = form.querySelector(".btn-submit");
     const msg = form.querySelector(".form-msg");
     msg.classList.remove("show", "error");
+    msg.innerHTML = "";
 
     // honeypot filled → pretend success, send nothing
     if (data.company) { showSuccess(); return; }
@@ -510,10 +511,16 @@ if (form) {
     } catch (err) {
       msg.textContent =
         err && err.status === 429
-          ? "A few too many tries in a row — wait ten minutes, or join the Discord and apply there."
+          ? "A few too many tries in a row — wait ten minutes, or reach us here:"
           : err && err.status === 503
-            ? "Applications are paused right now — join the Discord and message us directly."
-            : "Couldn't reach the queue — check your connection and try again, or join the Discord.";
+            ? "Applications are paused right now — reach us here:"
+            : "Couldn't reach the queue from this page — reach us here instead:";
+      const acts = document.createElement("span");
+      acts.className = "form-actions";
+      acts.innerHTML =
+        '<a class="pa-discord" href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer"><img src="assets/logos/discord.svg" alt="">Join the Discord</a>' +
+        '<a href="#" data-mail-open>Email instead</a>';
+      msg.appendChild(acts);
       msg.classList.add("show", "error");
     } finally {
       btn.disabled = false;
@@ -583,7 +590,65 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 const pill = document.getElementById("motion-pill");
 if (pill) pill.addEventListener("click", () => applyMotion(!motion));
 
+function initCursor() {
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (!fine || !motion) {
+    html.classList.remove("has-cursor");
+    return;
+  }
+  let dot = document.querySelector(".cursor-dot");
+  let ring = document.querySelector(".cursor-ring");
+  if (!dot) {
+    dot = document.createElement("div");
+    dot.className = "cursor-dot";
+    ring = document.createElement("div");
+    ring.className = "cursor-ring";
+    document.body.append(dot, ring);
+  }
+  html.classList.add("has-cursor");
+  let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y, seen = false;
+  window.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch") return;
+    x = e.clientX; y = e.clientY;
+    if (!seen) { seen = true; rx = x; ry = y; }
+    dot.style.transform = `translate(${x - 3.5}px, ${y - 3.5}px)`;
+    const hot = e.target.closest("a, button, summary, input, select, textarea, .card, .spot");
+    ring.classList.toggle("hot", !!hot);
+  });
+  document.documentElement.addEventListener("mouseleave", () => {
+    dot.style.opacity = "0";
+    ring.style.opacity = "0";
+  });
+  document.documentElement.addEventListener("mouseenter", () => {
+    dot.style.opacity = "";
+    ring.style.opacity = "";
+  });
+  (function cloop() {
+    rx += (x - rx) * 0.18;
+    ry += (y - ry) * 0.18;
+    const half = ring.classList.contains("hot") ? 28 : 17;
+    ring.style.transform = `translate(${rx - half}px, ${ry - half}px)`;
+    requestAnimationFrame(cloop);
+  })();
+}
+
 applyMotion(motion, { save: false });
+initCursor();
+
+const loader = document.getElementById("loader");
 const markLoaded = () => body.classList.add("loaded");
-requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(markLoaded, 60)));
-setTimeout(markLoaded, 700); // fallback — background tabs pause rAF
+let booted = false;
+try { booted = sessionStorage.getItem("marko-booted") === "1"; } catch {}
+
+if (motion && loader && !booted) {
+  try { sessionStorage.setItem("marko-booted", "1"); } catch {}
+  setTimeout(() => {
+    markLoaded();
+    loader.classList.add("done");
+    setTimeout(() => loader.remove(), 900);
+  }, 1050);
+} else {
+  if (loader) loader.remove();
+  requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(markLoaded, 60)));
+  setTimeout(markLoaded, 700);
+}
