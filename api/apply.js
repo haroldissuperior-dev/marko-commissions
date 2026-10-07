@@ -6,7 +6,7 @@ const buckets = new Map();
 function rateLimited(ip) {
   const now = Date.now();
   const hits = (buckets.get(ip) || []).filter((t) => now - t < 10 * 60 * 1000);
-  if (hits.length >= 10) {
+  if (hits.length >= 30) {
     buckets.set(ip, hits);
     return true;
   }
@@ -23,11 +23,6 @@ export default async function handler(req, res) {
 
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "Method not allowed." });
-  }
-
-  const ip = (req.headers["x-forwarded-for"] || "unknown").split(",")[0].trim();
-  if (rateLimited(ip)) {
-    return res.status(429).json({ ok: false, error: "Too many submissions — try again later." });
   }
 
   const webhook = process.env.DISCORD_WEBHOOK_URL;
@@ -47,6 +42,15 @@ export default async function handler(req, res) {
   const experience = cut(body.experience, 1500);
   const scenario = cut(body.scenario, 1500);
   const why = cut(body.why, 1024);
+
+  // rate limit only counts real, validated submission attempts
+  const ip = (req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "unknown")
+    .toString()
+    .split(",")[0]
+    .trim();
+  if (rateLimited(ip)) {
+    return res.status(429).json({ ok: false, error: "Too many submissions — try again later." });
+  }
 
   if (
     contact.length < 2 ||
