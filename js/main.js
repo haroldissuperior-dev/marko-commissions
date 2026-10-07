@@ -121,16 +121,41 @@ window.addEventListener("scroll", () => {
 }, { passive: true });
 
 // velocity blur on content sections while scrolling fast
-(function blurLoop() {
+/* velocity effects: blur + skew respond the instant you scroll */
+const marquees = [...document.querySelectorAll(".marquee-track")].map((t) => ({
+  el: t,
+  x: 0,
+  dir: t.classList.contains("reverse") ? 1 : -1,
+  w: 0,
+}));
+
+(function velLoop() {
   let cur = 0;
   function step() {
     if (motion) updateMonitor();
-    if (motion && blurSections.length) {
-      cur += (targetVel - cur) * 0.16;
-      targetVel *= 0.9;
-      const b = Math.min(Math.abs(cur) * 0.055, 5.5);
-      const f = b < 0.12 ? "" : `blur(${b.toFixed(2)}px)`;
-      blurSections.forEach((s) => (s.style.filter = f));
+    if (motion) {
+      cur += (targetVel - cur) * 0.32;
+      targetVel *= 0.88;
+
+      if (blurSections.length) {
+        const b = Math.min(Math.abs(cur) * 0.16, 7);
+        const sk = Math.max(-1, Math.min(1, cur * 0.02));
+        const f = b < 0.05 ? "" : `blur(${b.toFixed(2)}px)`;
+        const t = Math.abs(sk) < 0.02 ? "" : `skewY(${sk.toFixed(3)}deg)`;
+        blurSections.forEach((s) => {
+          s.style.filter = f;
+          s.style.transform = t;
+        });
+      }
+
+      const boost = Math.min(Math.abs(cur) * 0.12, 14);
+      for (const m of marquees) {
+        if (!m.w) m.w = m.el.scrollWidth / 4 || 1;
+        m.x += m.dir * (0.55 + boost);
+        if (m.x <= -m.w) m.x += m.w;
+        if (m.x >= 0) m.x -= m.w;
+        m.el.style.transform = `translateX(${m.x.toFixed(1)}px)`;
+      }
     }
     requestAnimationFrame(step);
   }
@@ -480,10 +505,15 @@ if (form) {
       if (res.ok && json.ok) {
         showSuccess();
       } else {
-        throw new Error(json.error || "send failed");
+        throw Object.assign(new Error(json.error || "send failed"), { status: res.status });
       }
-    } catch {
-      msg.textContent = "Couldn't send that — try again in a moment, or email marko@marko21022.com directly.";
+    } catch (err) {
+      msg.textContent =
+        err && err.status === 429
+          ? "A few too many tries in a row — wait ten minutes, or join the Discord and apply there."
+          : err && err.status === 503
+            ? "Applications are paused right now — join the Discord and message us directly."
+            : "Couldn't reach the queue — check your connection and try again, or join the Discord.";
       msg.classList.add("show", "error");
     } finally {
       btn.disabled = false;

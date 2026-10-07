@@ -363,11 +363,7 @@ html.motion-on body.loaded .nav.hidden { transform: translateY(-100%); }
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
 }
-.marquee-track { display: flex; width: max-content; }
-html.motion-on .marquee-track { animation: mq 36s linear infinite; }
-html.motion-on .marquee-track.reverse { animation: mq-r 42s linear infinite; }
-@keyframes mq { to { transform: translateX(-50%); } }
-@keyframes mq-r { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.marquee-track { display: flex; width: max-content; will-change: transform; }
 .marquee-set { display: flex; align-items: center; flex-shrink: 0; }
 .marquee-set span {
   font-family: var(--disp); font-weight: 600; text-transform: uppercase;
@@ -554,6 +550,9 @@ html.motion-on .tl-step.rv.in.active {
 .tl-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
 .tl-num { font-family: var(--mono); font-size: 11px; color: var(--dim); }
 .tl-head h4 { font-family: var(--disp); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; }
+.tl-step:hover { border-color: var(--line-2); transform: translateY(-2px); }
+.tl-step.active:hover { transform: translate(6px, -2px); }
+html.motion-on .tl-step.rv.in.active:hover { transform: translate(6px, -2px); }
 .tl-step p { color: var(--mut); font-size: 14.5px; line-height: 1.66; }
 
 
@@ -690,9 +689,16 @@ html.motion-on .app-form::after { animation: spin-border 7s linear infinite; }
 .btn-submit.is-loading .submit-loading { display: inline; }
 .form-note { font-size: 12.5px; color: var(--dim); line-height: 1.55; max-width: 280px; }
 
-.form-msg { margin-top: 18px; font-size: 14px; display: none; }
+.form-msg {
+  margin-top: 18px; font-size: 14px; line-height: 1.6; display: none;
+  padding: 14px 18px; border-radius: 13px;
+}
 .form-msg.show { display: block; }
-.form-msg.error { color: #ffa3a3; }
+.form-msg.error {
+  color: #ffb1b1;
+  border: 1px solid rgba(255, 120, 120, 0.28);
+  background: rgba(255, 100, 100, 0.05);
+}
 
 .form-success { text-align: center; padding: 64px 20px 40px; }
 .form-success h3 { font-family: var(--disp); font-weight: 600; font-size: 26px; letter-spacing: -0.02em; margin: 26px 0 10px; }

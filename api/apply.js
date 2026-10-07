@@ -6,7 +6,7 @@ const buckets = new Map();
 function rateLimited(ip) {
   const now = Date.now();
   const hits = (buckets.get(ip) || []).filter((t) => now - t < 10 * 60 * 1000);
-  if (hits.length >= 5) {
+  if (hits.length >= 10) {
     buckets.set(ip, hits);
     return true;
   }
