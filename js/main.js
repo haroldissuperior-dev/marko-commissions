@@ -7,7 +7,6 @@ const body = document.body;
 const MOTION_KEY = "marko-motion";
 const EMAIL = "marko@marko21022.com";
 
-/* ---------------- motion state ---------------- */
 
 let motion = (() => {
   try { return localStorage.getItem(MOTION_KEY) !== "0"; } catch { return true; }
@@ -48,7 +47,6 @@ function destroyLenis() {
   lenis = null;
 }
 
-/* ---------------- scroll effects ---------------- */
 
 const nav = document.getElementById("nav");
 const heroInner = document.getElementById("hero-inner");
@@ -160,7 +158,6 @@ window.addEventListener("scroll", () => {
   requestAnimationFrame(step);
 })();
 
-/* ---------------- reveals ---------------- */
 
 const io = new IntersectionObserver(
   (entries) => {
@@ -174,7 +171,6 @@ const io = new IntersectionObserver(
 );
 document.querySelectorAll(".rv").forEach((el) => io.observe(el));
 
-/* ---------------- timeline step activation ---------------- */
 
 const steps = document.querySelectorAll(".tl-step");
 const stepIO = new IntersectionObserver(
@@ -187,7 +183,6 @@ const stepIO = new IntersectionObserver(
 );
 steps.forEach((s) => stepIO.observe(s));
 
-/* ---------------- stat counters ---------------- */
 
 const statsIO = new IntersectionObserver(
   (entries) => {
@@ -214,7 +209,6 @@ const statsIO = new IntersectionObserver(
 const statsEl = document.getElementById("stats");
 if (statsEl) statsIO.observe(statsEl);
 
-/* ---------------- nav + side dots active section ---------------- */
 
 const navLinks = new Map([...document.querySelectorAll(".nav-links a")].map((a) => [a.dataset.nav, a]));
 const dots = new Map([...document.querySelectorAll(".dots a")].map((a) => [a.dataset.dot, a]));
@@ -236,7 +230,6 @@ const secIO = new IntersectionObserver(
   if (el) secIO.observe(el);
 });
 
-/* ---------------- marquees ---------------- */
 
 for (const id of ["marquee-track", "marquee-2"]) {
   const track = document.getElementById(id);
@@ -245,7 +238,6 @@ for (const id of ["marquee-track", "marquee-2"]) {
   for (let i = 0; i < 3; i++) track.appendChild(set.cloneNode(true));
 }
 
-/* ---------------- cursor glow ---------------- */
 
 const glow = document.querySelector(".cursor-glow");
 if (glow) {
@@ -263,7 +255,6 @@ if (glow) {
   })();
 }
 
-/* ---------------- tilt, spotlight, magnetic, ripple ---------------- */
 
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 if (finePointer) {
@@ -340,7 +331,6 @@ document.querySelectorAll(".btn-solid").forEach((btn) => {
   });
 });
 
-/* ---------------- FAQ: keep one open ---------------- */
 
 const faqItems = document.querySelectorAll(".faq-item");
 faqItems.forEach((item) => {
@@ -350,7 +340,6 @@ faqItems.forEach((item) => {
   });
 });
 
-/* ---------------- mail chooser modal ---------------- */
 
 const mailModal = document.getElementById("mail-modal");
 const toast = document.getElementById("toast");
@@ -395,7 +384,6 @@ document.getElementById("mail-copy")?.addEventListener("click", async () => {
   setTimeout(() => toast.classList.remove("show"), 1800);
 });
 
-/* ---------------- form ---------------- */
 
 const form = document.getElementById("app-form");
 const successPanel = document.getElementById("form-success");
@@ -472,7 +460,6 @@ if (again) {
   });
 }
 
-/* ---------------- mobile menu ---------------- */
 
 const burger = document.getElementById("burger");
 const menu = document.getElementById("menu");
@@ -494,7 +481,6 @@ if (burger && menu) {
   menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
 }
 
-/* ---------------- anchor scrolling ---------------- */
 
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
   a.addEventListener("click", (e) => {
@@ -508,7 +494,6 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 });
 
-/* ---------------- motion pill + boot ---------------- */
 
 const pill = document.getElementById("motion-pill");
 if (pill) pill.addEventListener("click", () => applyMotion(!motion));
