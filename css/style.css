@@ -451,7 +451,7 @@ html.motion-on .marquee-track.reverse { animation: mq-r 42s linear infinite; }
   padding: 7px 12px; background: rgba(255, 255, 255, 0.03);
 }
 .card-index { font-family: var(--disp); font-weight: 500; font-size: 15px; color: var(--dim); }
-.card h3 { font-family: var(--serif); font-weight: 600; font-size: 28px; letter-spacing: -0.01em; margin-bottom: 14px; }
+.card h3 { font-family: var(--disp); font-weight: 600; font-size: 27px; letter-spacing: -0.02em; margin-bottom: 14px; }
 .card-copy { color: var(--mut); font-size: 15px; line-height: 1.68; margin-bottom: 28px; }
 .card-list { display: grid; gap: 11px; }
 .card-list li {
@@ -553,7 +553,7 @@ html.motion-on .tl-step.rv.in.active {
 }
 .tl-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
 .tl-num { font-family: var(--mono); font-size: 11px; color: var(--dim); }
-.tl-head h4 { font-family: var(--serif); font-weight: 600; font-size: 21px; letter-spacing: -0.01em; }
+.tl-head h4 { font-family: var(--disp); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; }
 .tl-step p { color: var(--mut); font-size: 14.5px; line-height: 1.66; }
 
 
@@ -571,7 +571,7 @@ html.motion-on .tl-step.rv.in.active {
 }
 .term:hover { background: rgba(255, 255, 255, 0.022); }
 .term-num { font-family: var(--mono); font-size: 12px; color: var(--dim); padding-top: 6px; }
-.term h4 { font-family: var(--serif); font-weight: 600; font-size: 20px; letter-spacing: -0.01em; margin-bottom: 8px; }
+.term h4 { font-family: var(--disp); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; margin-bottom: 8px; }
 .term p { color: var(--mut); font-size: 14.5px; line-height: 1.7; }
 
 
@@ -586,7 +586,7 @@ html.motion-on .tl-step.rv.in.active {
 .faq-item summary {
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
   padding: 22px 26px; cursor: pointer; list-style: none;
-  font-family: var(--serif); font-weight: 600; font-size: 18.5px; letter-spacing: -0.01em;
+  font-family: var(--disp); font-weight: 600; font-size: 17.5px; letter-spacing: -0.01em;
 }
 .faq-item summary::-webkit-details-marker { display: none; }
 .faq-icon {
@@ -695,7 +695,7 @@ html.motion-on .app-form::after { animation: spin-border 7s linear infinite; }
 .form-msg.error { color: #ffa3a3; }
 
 .form-success { text-align: center; padding: 64px 20px 40px; }
-.form-success h3 { font-family: var(--serif); font-weight: 600; font-size: 28px; letter-spacing: -0.01em; margin: 26px 0 10px; }
+.form-success h3 { font-family: var(--disp); font-weight: 600; font-size: 26px; letter-spacing: -0.02em; margin: 26px 0 10px; }
 .form-success p { color: var(--mut); margin-bottom: 30px; }
 .check { width: 76px; height: 76px; margin-inline: auto; display: block; }
 .check-ring, .check-mark { fill: none; stroke-linecap: round; stroke-linejoin: round; }
@@ -777,7 +777,7 @@ html.motion-on .cta-band::before { animation: halo 6s ease-in-out infinite; }
   color: var(--dim);
 }
 .mail-card h3 {
-  font-family: var(--serif); font-weight: 700; font-size: 25px; letter-spacing: -0.01em;
+  font-family: var(--disp); font-weight: 700; font-size: 24px; letter-spacing: -0.02em;
   margin-top: 8px;
 }
 .mail-sub { color: var(--mut); font-size: 14px; margin-top: 6px; }
@@ -1157,3 +1157,16 @@ html.motion-on .screen-scan { animation: scan 7s linear infinite; }
   .scr-rows li { padding: 3% 2%; }
   .bubble { max-width: 86%; }
 }
+
+html.motion-on .marquee:hover .marquee-track { animation-play-state: paused; }
+
+html.motion-on .grain { animation: grain 1.4s steps(4) infinite; }
+@keyframes grain {
+  0% { background-position: 0 0; }
+  25% { background-position: -56px 32px; }
+  50% { background-position: 24px -48px; }
+  75% { background-position: -16px -8px; }
+  100% { background-position: 0 0; }
+}
+
+.spot { transition: border-color 0.4s ease; }

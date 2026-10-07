@@ -107,30 +107,8 @@ function onScroll(e) {
     }
   }
 
-  // monitor showcase: rotate with scroll, swap screen phases
-  const showcase = document.querySelector(".showcase");
-  const m3d = document.getElementById("monitor-3d");
-  if (showcase && m3d && motion) {
-    const r = showcase.getBoundingClientRect();
-    if (r.top < window.innerHeight && r.bottom > 0) {
-      const total = showcase.offsetHeight - window.innerHeight;
-      const p = Math.min(Math.max(-r.top / total, 0), 1);
-      const rotY = (0.5 - p) * 14;
-      const rotX = 6.5 - p * 8;
-      m3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
-      const phase = Math.min(3, Math.floor(p * 4));
-      document.querySelectorAll("[data-scr]").forEach((el) => {
-        el.classList.toggle("is-on", Number(el.dataset.scr) === phase);
-      });
-      document.querySelectorAll("[data-cap]").forEach((el) => {
-        el.classList.toggle("is-on", Number(el.dataset.cap) === phase);
-      });
-      const pct = document.getElementById("hud-pct");
-      const ph = document.getElementById("hud-phase");
-      if (pct) pct.textContent = String(Math.round(p * 100));
-      if (ph) ph.textContent = String(phase + 1).padStart(2, "0");
-    }
-  }
+  /* monitor showcase: rotate with scroll, swap screen phases */
+  updateMonitor();
 
   window.dispatchEvent(new CustomEvent("uim-scroll", { detail: { y } }));
 }
@@ -146,6 +124,7 @@ window.addEventListener("scroll", () => {
 (function blurLoop() {
   let cur = 0;
   function step() {
+    if (motion) updateMonitor();
     if (motion && blurSections.length) {
       cur += (targetVel - cur) * 0.16;
       targetVel *= 0.9;
@@ -158,18 +137,90 @@ window.addEventListener("scroll", () => {
   requestAnimationFrame(step);
 })();
 
+/* monitor showcase: scroll rotation + cursor glare/tilt */
+const showcase = document.querySelector(".showcase");
+const m3d = document.getElementById("monitor-3d");
+const screenGlare = document.querySelector(".screen-glare");
+const mon = { p: 0, hoverX: 0, hoverY: 0, sx: 0, sy: 0 };
+
+function updateMonitor() {
+  if (!showcase || !m3d) return;
+  const r = showcase.getBoundingClientRect();
+  if (r.top >= window.innerHeight || r.bottom <= 0) return;
+  if (motion) {
+    const total = showcase.offsetHeight - window.innerHeight;
+    mon.p = Math.min(Math.max(-r.top / total, 0), 1);
+    mon.sx += (mon.hoverX - mon.sx) * 0.06;
+    mon.sy += (mon.hoverY - mon.sy) * 0.06;
+    const rotY = (0.5 - mon.p) * 14 + mon.sx * 3.5;
+    const rotX = 6.5 - mon.p * 8 - mon.sy * 2.5;
+    m3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+    const phase = Math.min(3, Math.floor(mon.p * 4));
+    document.querySelectorAll("[data-scr]").forEach((el) => {
+      el.classList.toggle("is-on", Number(el.dataset.scr) === phase);
+    });
+    document.querySelectorAll("[data-cap]").forEach((el) => {
+      el.classList.toggle("is-on", Number(el.dataset.cap) === phase);
+    });
+    const pct = document.getElementById("hud-pct");
+    const ph = document.getElementById("hud-phase");
+    if (pct) pct.textContent = String(Math.round(mon.p * 100));
+    if (ph) ph.textContent = String(phase + 1).padStart(2, "0");
+    if (screenGlare) {
+      screenGlare.style.translate = `${(24 - mon.sx * 34).toFixed(1)}px ${(-14 - mon.sy * 22).toFixed(1)}px`;
+    }
+  }
+}
+
+if (m3d) {
+  window.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch") return;
+    const r = m3d.getBoundingClientRect();
+    if (r.bottom < -200 || r.top > window.innerHeight + 200) return;
+    mon.hoverX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mon.hoverY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+}
+
+/* text decode on section titles as they reveal */
+function decodeText(el) {
+  const nodes = [...el.childNodes].filter((n) => n.nodeType === 3 && n.textContent.trim());
+  const origs = nodes.map((n) => n.textContent);
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let frame = 0;
+  const total = 24;
+  function tick() {
+    frame++;
+    nodes.forEach((n, i) => {
+      const o = origs[i];
+      const reveal = Math.floor((frame / total) * o.length);
+      let s = o.slice(0, reveal);
+      for (let j = reveal; j < o.length; j++) {
+        s += o[j] === " " ? " " : chars[(Math.random() * chars.length) | 0];
+      }
+      n.textContent = s;
+    });
+    if (frame < total) requestAnimationFrame(tick);
+    else nodes.forEach((n, i) => (n.textContent = origs[i]));
+  }
+  requestAnimationFrame(tick);
+}
 
 const io = new IntersectionObserver(
   (entries) => {
     for (const en of entries) {
       if (!en.isIntersecting) continue;
       en.target.classList.add("in");
+      if (en.target.classList.contains("sec-title") && motion) decodeText(en.target);
       io.unobserve(en.target);
     }
   },
   { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
 );
 document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+
+/* spotlight hover borders on stats + faq cards */
+document.querySelectorAll(".stat, .faq-item").forEach((el) => el.classList.add("spot"));
 
 
 const steps = document.querySelectorAll(".tl-step");
@@ -316,13 +367,17 @@ if (finePointer) {
   }
 }
 
-document.querySelectorAll(".btn-solid").forEach((btn) => {
+document.querySelectorAll(".btn").forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    if (!motion) return;
+    if (!motion || btn.classList.contains("mail-x")) return;
     const r = btn.getBoundingClientRect();
     const d = Math.max(r.width, r.height);
     const s = document.createElement("span");
     s.className = "ripple";
+    const dark = btn.classList.contains("btn-solid");
+    s.style.background = dark
+      ? "radial-gradient(circle, rgba(8,8,10,.35) 0%, transparent 65%)"
+      : "radial-gradient(circle, rgba(255,255,255,.28) 0%, transparent 65%)";
     s.style.width = s.style.height = `${d}px`;
     s.style.left = `${e.clientX - r.left - d / 2}px`;
     s.style.top = `${e.clientY - r.top - d / 2}px`;
