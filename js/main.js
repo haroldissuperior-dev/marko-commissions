@@ -109,6 +109,31 @@ function onScroll(e) {
     }
   }
 
+  // monitor showcase: rotate with scroll, swap screen phases
+  const showcase = document.querySelector(".showcase");
+  const m3d = document.getElementById("monitor-3d");
+  if (showcase && m3d && motion) {
+    const r = showcase.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      const total = showcase.offsetHeight - window.innerHeight;
+      const p = Math.min(Math.max(-r.top / total, 0), 1);
+      const rotY = (0.5 - p) * 14;
+      const rotX = 6.5 - p * 8;
+      m3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+      const phase = Math.min(3, Math.floor(p * 4));
+      document.querySelectorAll("[data-scr]").forEach((el) => {
+        el.classList.toggle("is-on", Number(el.dataset.scr) === phase);
+      });
+      document.querySelectorAll("[data-cap]").forEach((el) => {
+        el.classList.toggle("is-on", Number(el.dataset.cap) === phase);
+      });
+      const pct = document.getElementById("hud-pct");
+      const ph = document.getElementById("hud-phase");
+      if (pct) pct.textContent = String(Math.round(p * 100));
+      if (ph) ph.textContent = String(phase + 1).padStart(2, "0");
+    }
+  }
+
   window.dispatchEvent(new CustomEvent("uim-scroll", { detail: { y } }));
 }
 
@@ -489,6 +514,6 @@ const pill = document.getElementById("motion-pill");
 if (pill) pill.addEventListener("click", () => applyMotion(!motion));
 
 applyMotion(motion, { save: false });
-requestAnimationFrame(() =>
-  requestAnimationFrame(() => setTimeout(() => body.classList.add("loaded"), 60))
-);
+const markLoaded = () => body.classList.add("loaded");
+requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(markLoaded, 60)));
+setTimeout(markLoaded, 700); // fallback — background tabs pause rAF
