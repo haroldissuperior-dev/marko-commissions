@@ -19,15 +19,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script>
-    (function () {
-      try {
-        var off = localStorage.getItem("marko-motion") === "0";
-        document.documentElement.classList.toggle("motion-on", !off);
-        document.documentElement.dataset.motion = off ? "off" : "on";
-      } catch (e) {
-        document.documentElement.classList.add("motion-on");
-      }
-    })();
+    document.documentElement.classList.add("motion-on");
+    document.documentElement.dataset.motion = "on";
   </script>
 </head>
 <body>
@@ -50,9 +43,6 @@
       <a href="index.html#apply">Apply</a>
     </nav>
     <div class="nav-right">
-      <button class="motion-pill" id="motion-pill" type="button" aria-pressed="true">
-        <span class="motion-dot" aria-hidden="true"></span>Motion&nbsp;<span id="motion-state">On</span>
-      </button>
       <a class="btn btn-solid nav-cta magnetic" href="index.html#apply">Apply now</a>
       <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span>

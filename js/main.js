@@ -4,33 +4,15 @@
 
 const html = document.documentElement;
 const body = document.body;
-const MOTION_KEY = "marko-motion";
 const EMAIL = "marko@marko21022.com";
 
-
-let motion = (() => {
-  try { return localStorage.getItem(MOTION_KEY) !== "0"; } catch { return true; }
-})();
+const motion = true;
 
 let lenis = null;
 let lenisRaf = 0;
 
-function applyMotion(on, { save = true } = {}) {
-  motion = on;
-  if (save) { try { localStorage.setItem(MOTION_KEY, on ? "1" : "0"); } catch {} }
-  html.classList.toggle("motion-on", on);
-  html.dataset.motion = on ? "on" : "off";
-  const pill = document.getElementById("motion-pill");
-  if (pill) pill.setAttribute("aria-pressed", String(on));
-  const state = document.getElementById("motion-state");
-  if (state) state.textContent = on ? "On" : "Off";
-  window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on } }));
-  if (on) initLenis();
-  else destroyLenis();
-}
-
 function initLenis() {
-  if (lenis || typeof Lenis === "undefined" || !motion) return;
+  if (lenis || typeof Lenis === "undefined") return;
   lenis = new Lenis({ lerp: 0.105, wheelMultiplier: 1, touchMultiplier: 1.4 });
   lenis.on("scroll", onScroll);
   const raf = (time) => {
@@ -53,7 +35,6 @@ const heroInner = document.getElementById("hero-inner");
 const heroWords = document.querySelectorAll(".hero-h1 .w");
 const heroTexts = document.querySelectorAll(".hero-sub, .hero-cta, .hero-facts, .hero-logo-wrap");
 const progress = document.getElementById("progress");
-const blurSections = document.querySelectorAll("[data-blur]");
 const tl = document.getElementById("tl");
 const tlFill = document.getElementById("tl-fill");
 const watermarks = document.querySelectorAll(".watermark");
@@ -80,9 +61,6 @@ function onScroll(e) {
     const p = Math.min(Math.max(y / (window.innerHeight * 0.85), 0), 1);
     heroInner.style.transform = `translateY(${p * 64}px)`;
     heroInner.style.opacity = String(1 - p * 1.05);
-    const b = p > 0.02 ? (p * 12).toFixed(2) : "";
-    heroWords.forEach((w) => (w.style.filter = b ? `blur(${b}px)` : ""));
-    heroTexts.forEach((t) => (t.style.filter = b ? `blur(${b}px)` : ""));
   }
 
   // timeline fill follows scroll
@@ -120,8 +98,7 @@ window.addEventListener("scroll", () => {
   onScroll({ scroll: y, velocity: 0 });
 }, { passive: true });
 
-// velocity blur on content sections while scrolling fast
-/* velocity effects: blur + skew respond the instant you scroll */
+/* marquee reacts to scroll velocity */
 const marquees = [...document.querySelectorAll(".marquee-track")].map((t) => ({
   el: t,
   x: 0,
@@ -131,29 +108,11 @@ const marquees = [...document.querySelectorAll(".marquee-track")].map((t) => ({
 
 (function velLoop() {
   let cur = 0;
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) return;
-    targetVel = 0;
-    cur = 0;
-    blurSections.forEach((s) => (s.style.filter = "", s.style.transform = ""));
-  });
   function step() {
-    if (motion) updateMonitor();
     if (motion) {
+      updateMonitor();
       cur += (targetVel - cur) * 0.32;
       targetVel *= 0.88;
-
-      if (blurSections.length) {
-        const b = Math.min(Math.abs(cur) * 0.16, 7);
-        const sk = Math.max(-1, Math.min(1, cur * 0.02));
-        const f = b < 0.05 ? "" : `blur(${b.toFixed(2)}px)`;
-        const t = Math.abs(sk) < 0.02 ? "" : `skewY(${sk.toFixed(3)}deg)`;
-        blurSections.forEach((s) => {
-          s.style.filter = f;
-          s.style.transform = t;
-        });
-      }
-
       const boost = Math.min(Math.abs(cur) * 0.12, 14);
       for (const m of marquees) {
         if (!m.w) m.w = m.el.scrollWidth / 4 || 1;
@@ -193,10 +152,8 @@ function updateMonitor() {
     document.querySelectorAll("[data-cap]").forEach((el) => {
       el.classList.toggle("is-on", Number(el.dataset.cap) === phase);
     });
-    const pct = document.getElementById("hud-pct");
-    const ph = document.getElementById("hud-phase");
-    if (pct) pct.textContent = String(Math.round(mon.p * 100));
-    if (ph) ph.textContent = String(phase + 1).padStart(2, "0");
+    const num = document.getElementById("hud-num");
+    if (num) num.textContent = String(phase + 1).padStart(2, "0");
     if (screenGlare) {
       screenGlare.style.translate = `${(24 - mon.sx * 34).toFixed(1)}px ${(-14 - mon.sy * 22).toFixed(1)}px`;
     }
@@ -569,16 +526,6 @@ function showSuccess() {
   }
 }
 
-const again = document.getElementById("success-again");
-if (again) {
-  again.addEventListener("click", () => {
-    successPanel.hidden = true;
-    form.hidden = false;
-    form.reset();
-    form.scrollIntoView({ behavior: motion ? "smooth" : "auto", block: "center" });
-  });
-}
-
 
 const burger = document.getElementById("burger");
 const menu = document.getElementById("menu");
@@ -614,15 +561,9 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 });
 
 
-const pill = document.getElementById("motion-pill");
-if (pill) pill.addEventListener("click", () => applyMotion(!motion));
-
 function initCursor() {
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
-  if (!fine || !motion) {
-    html.classList.remove("has-cursor");
-    return;
-  }
+  if (!fine) return;
   let dot = document.querySelector(".cursor-dot");
   let ring = document.querySelector(".cursor-ring");
   if (!dot) {
@@ -659,7 +600,10 @@ function initCursor() {
   })();
 }
 
-applyMotion(motion, { save: false });
+html.classList.add("motion-on");
+html.dataset.motion = "on";
+window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));
+initLenis();
 initCursor();
 
 const loader = document.getElementById("loader");

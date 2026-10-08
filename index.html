@@ -20,15 +20,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script>
-    (function () {
-      try {
-        var off = localStorage.getItem("marko-motion") === "0";
-        document.documentElement.classList.toggle("motion-on", !off);
-        document.documentElement.dataset.motion = off ? "off" : "on";
-      } catch (e) {
-        document.documentElement.classList.add("motion-on");
-      }
-    })();
+    document.documentElement.classList.add("motion-on");
+    document.documentElement.dataset.motion = "on";
   </script>
 </head>
 <body>
@@ -57,9 +50,6 @@
       <a href="#apply" data-nav="apply">Apply</a>
     </nav>
     <div class="nav-right">
-      <button class="motion-pill" id="motion-pill" type="button" aria-pressed="true">
-        <span class="motion-dot" aria-hidden="true"></span>Motion&nbsp;<span id="motion-state">On</span>
-      </button>
       <a class="btn btn-solid nav-cta magnetic" href="#apply">Apply now</a>
       <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span>
@@ -138,26 +128,39 @@
           <div class="monitor-glow" aria-hidden="true"></div>
           <div class="monitor">
             <div class="monitor-screen">
+              <div class="screen-topbar" aria-hidden="true">
+                <span class="tb-brand"><img src="assets/logo.png" alt="" width="14" height="11">marko's</span>
+                <span class="tb-nav"><i>work</i><i>terms</i><i>apply</i></span>
+                <span class="tb-live"><i></i>live</span>
+              </div>
               <div class="screen-ui" aria-hidden="true">
                 <div class="scr is-on" data-scr="0">
                   <div class="scr-top"><span class="scr-kicker">01 · Design</span><span class="scr-tag">A</span></div>
-                  <h4 class="scr-title">Graphic design</h4>
-                  <ul class="scr-rows">
-                    <li>Logos &amp; brand identity</li>
-                    <li>Banners, headers &amp; overlays</li>
-                    <li>UI &amp; UX mockups</li>
-                    <li>Emotes, thumbnails &amp; assets</li>
-                  </ul>
-                  <div class="scr-chipstat"><b>100%</b><span>source files included</span></div>
+                  <div class="brand-board">
+                    <img src="assets/logo.png" alt="" width="88" height="66">
+                    <p class="bb-word"><b>Marko's</b> Commissions</p>
+                    <p class="bb-sub">brand sheet — final</p>
+                  </div>
+                  <div class="type-row">
+                    <span class="t-serif">Playfair Display</span>
+                    <span class="t-grot">Space Grotesk</span>
+                    <span class="t-mono">JetBrains Mono</span>
+                  </div>
+                  <div class="swatches"><i></i><i></i><i></i><i></i><i></i></div>
                 </div>
                 <div class="scr" data-scr="1">
                   <div class="scr-top"><span class="scr-kicker">02 · Code</span><span class="scr-tag">B</span></div>
                   <h4 class="scr-title">Discord bots</h4>
-                  <div class="term">
-                    <div class="term-bar"><i></i><i></i><i></i></div>
-                    <div class="term-body">
-                      <span class="ln w62"></span><span class="ln w84"></span><span class="ln w45"></span>
-                      <span class="ln w73"></span><span class="ln w38"></span><span class="ln w66"></span>
+                  <div class="disc-msg">
+                    <span class="disc-ava"><img src="assets/logo.png" alt="" width="20" height="15"></span>
+                    <div class="disc-body">
+                      <p class="disc-name">Marko's Bot <span>today at 3:15 PM</span></p>
+                      <div class="disc-embed">
+                        <p class="de-title">Application received</p>
+                        <p class="de-field"><b>Discord:</b> @wanderer</p>
+                        <p class="de-field"><b>Hours:</b> 5 – 10 per week</p>
+                        <p class="de-foot">via website form</p>
+                      </div>
                     </div>
                   </div>
                   <div class="scr-chipstat"><b>14 days</b><span>of bug-fix support after handoff</span></div>
@@ -165,16 +168,22 @@
                 <div class="scr" data-scr="2">
                   <div class="scr-top"><span class="scr-kicker">03 · People</span><span class="scr-tag">C</span></div>
                   <h4 class="scr-title">Support team</h4>
-                  <div class="chat">
-                    <div class="bubble b1">hey — can I get a hand with something?</div>
-                    <div class="bubble b2">on it. give me a minute.</div>
+                  <div class="feed">
+                    <div class="feed-row"><i class="fd-dot"></i><p><b>@kai</b> timed out <b>@ruski_88</b> — spam · 10m</p><span>2m</span></div>
+                    <div class="feed-row"><i class="fd-dot dim"></i><p><b>auto-mod</b> deleted 12 messages in <b>#general</b></p><span>9m</span></div>
+                    <div class="feed-row"><i class="fd-dot"></i><p>application <b>#0142</b> received — in queue</p><span>31m</span></div>
                   </div>
                   <div class="scr-chipstat"><b>Open</b><span>support applications right now</span></div>
                 </div>
                 <div class="scr" data-scr="3">
                   <div class="scr-top"><span class="scr-kicker">04 · You</span><span class="scr-tag">D</span></div>
                   <h4 class="scr-title">Start something.</h4>
-                  <p class="scr-copy">The quote comes before any work starts — and the form goes straight to the team's Discord.</p>
+                  <div class="scr-stats">
+                    <div><b>3</b><span>revisions</span></div>
+                    <div><b>14</b><span>days support</span></div>
+                    <div><b>50%</b><span>upfront</span></div>
+                    <div><b>100%</b><span>yours</span></div>
+                  </div>
                   <a class="btn btn-solid scr-btn" href="#apply" tabindex="-1">
                     Go to application
                     <svg class="btn-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -191,8 +200,7 @@
         </div>
 
         <div class="showcase-hud" aria-hidden="true">
-          <div class="hud-chip hud-left"><b id="hud-pct">0</b><span>% viewed</span></div>
-          <div class="hud-chip hud-right"><span>phase</span><b id="hud-phase">01</b></div>
+          <div class="hud-counter"><b id="hud-num">01</b><span>/ 04</span></div>
         </div>
         <p class="showcase-hint">Keep scrolling — the screen follows</p>
       </div>
@@ -485,7 +493,6 @@
           </svg>
           <h3>Application sent.</h3>
           <p>It's in the queue — you'll hear back on Discord or by email.</p>
-          <button class="btn btn-ghost" id="success-again" type="button">Send another</button>
         </div>
 
         <div class="contact-strip rv">
