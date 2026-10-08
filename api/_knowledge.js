@@ -19,8 +19,17 @@ export const KB = [
   },
   {
     k: ["who created the bot", "who made clanko", "who created clanko", "who made the bot",
-        "who made the server", "who created the server", "who owns the server", "who owns the brand"],
-    a: "Clanko V2, the Marko's Commissions brand and the Discord server were all created by Marko. This website — its design, code and contents — was made by KBlasts (ui.matt).",
+        "who made the server", "who created the server", "who owns the server", "who owns the brand",
+        "who made the discord", "who created the discord", "who made the commissions service",
+        "who created the commissions", "who made the service", "who created the service",
+        "who owns the discord", "who owns the service", "who runs the service", "who runs the server",
+        "commissions service", "the commissions service", "the service"],
+    a: "The commissions service, the Discord server and Clanko V2 were all created by Marko. This website — its design, code and contents — was made by KBlasts (ui.matt).",
+  },
+  {
+    k: ["what is the commissions service", "what is the service", "about the service", "about marko's commissions", "what is marko's commissions"],
+    a: "Marko's Commissions is a commission service for graphic design and Discord bots — created and run by Marko. Fixed quotes, 50% upfront, bots hosted free forever.",
+    links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
   },
   {
     k: ["what can you do", "what do you know", "help me", "capabilities", "options", "help"],
@@ -189,20 +198,33 @@ export function retrieve(msg, context) {
   const norm = " " + text.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim() + " ";
   const toks = expand(tokens(text));
 
+  // exact multi-word phrases win outright — longer phrases beat shorter ones
+  let phraseBest = null;
+  let phraseScore = 0;
+  for (const e of KB) {
+    for (const kw of e.k) {
+      if (kw.includes(" ") && norm.includes(" " + kw.toLowerCase() + " ")) {
+        const sc = 100 + kw.split(" ").length;
+        if (sc > phraseScore) {
+          phraseScore = sc;
+          phraseBest = e;
+        }
+      }
+    }
+  }
+  if (phraseBest) return phraseBest;
+
+  // loose keyword + synonym scoring for everything else
   let best = null;
   let bestScore = 0;
   for (const e of KB) {
     let s = 0;
     for (const kw of e.k) {
-      if (kw.includes(" ")) {
-        if (norm.includes(" " + kw.toLowerCase() + " ")) s += 4 + kw.split(" ").length;
-        else if (kw.toLowerCase().split(" ").every((w) => norm.includes(" " + w))) s += 3;
-      } else {
-        const skw = stem(kw.toLowerCase());
-        if (norm.includes(" " + kw.toLowerCase() + " ")) s += 3;
-        else if (toks.has(skw)) s += 2;
-        else if ([...toks].some((t) => t.startsWith(skw) && t.length - skw.length <= 2)) s += 1;
-      }
+      if (kw.includes(" ")) continue;
+      const skw = stem(kw.toLowerCase());
+      if (norm.includes(" " + kw.toLowerCase() + " ")) s += 3;
+      else if (toks.has(skw)) s += 2;
+      else if ([...toks].some((t) => t.startsWith(skw) && t.length - skw.length <= 2)) s += 1;
     }
     if (s > bestScore) {
       bestScore = s;
