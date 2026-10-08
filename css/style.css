@@ -26,13 +26,17 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
+html, body { overflow-x: clip; }
+@supports not (overflow: clip) {
+  html, body { overflow-x: hidden; }
+}
+
 body {
   font-family: var(--body);
   background: var(--bg);
   color: var(--fg);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
 ::selection { background: var(--fg); color: var(--bg); }
@@ -914,6 +918,7 @@ html[data-motion="off"] .cursor-glow { display: none; }
 
 @media (max-width: 540px) {
   .container, .container-narrow { width: calc(100% - 40px); }
+  .monitor-screen { aspect-ratio: 16 / 16.5; }
   .hero-h1 { font-size: clamp(40px, 11.5vw, 54px); }
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-logo-wrap { width: 180px; height: 164px; }
@@ -932,6 +937,30 @@ html[data-motion="off"] .cursor-glow { display: none; }
   .tl-step { padding: 20px 20px; }
   .tl-step.active,
   html.motion-on .tl-step.rv.in.active { transform: none; }
+}
+
+/* short landscape (phones rotated sideways) */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero { min-height: auto; padding: 92px 20px 54px; }
+  .hero-logo-wrap { width: 116px; height: 104px; margin-bottom: 4px; }
+  .hero-logo { width: 92px; }
+  .logo-ring { width: 112px; height: 112px; }
+  .hero-h1 { font-size: clamp(28px, 7vh, 44px); margin-top: 8px; }
+  .hero-sub { font-size: 14px; margin-top: 10px; }
+  .hero-cta { margin-top: 16px; }
+  .hero-facts, .scroll-cue { display: none; }
+  .showcase { height: 300vh; }
+  .monitor { width: min(680px, 84vw); }
+  .monitor-screen { aspect-ratio: 16 / 8.8; }
+  .monitor-neck { height: 34px; }
+  .float-badge { right: 4px; }
+  .section { padding: 76px 0; }
+  .cta-band { padding: 90px 0; }
+  .footer-mark { font-size: clamp(80px, 14vw, 160px); }
+}
+
+@media (min-width: 1800px) {
+  .container { width: min(1280px, 100% - 48px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -988,7 +1017,7 @@ html.motion-on .btn-discord:hover::after { animation: sheen 0.9s var(--ease); }
   transform-style: preserve-3d;
 }
 .monitor-screen {
-  position: relative; aspect-ratio: 16 / 9.4;
+  position: relative; aspect-ratio: 16 / 9.4; min-height: 175px;
   border-radius: 22px; overflow: hidden;
   background: linear-gradient(180deg, #0d0d10, #08080a);
   border: 1px solid rgba(255, 255, 255, 0.13);
@@ -1389,6 +1418,7 @@ html.motion-on .fb-pulse::after { animation: pulse 2.2s ease-out infinite; }
   .showcase-caption { top: 10vh; }
   .showcase-caption .cap { font-size: clamp(34px, 10vw, 54px); }
   .monitor { width: min(560px, 94vw); }
+  .monitor-screen { aspect-ratio: 16 / 11.5; }
   .monitor-neck { width: 64px; height: 40px; }
   .monitor-base { width: 200px; }
   .scr-rows li { padding: 3% 2%; }
