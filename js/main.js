@@ -142,6 +142,53 @@ const showcase = document.querySelector(".showcase");
 const m3d = document.getElementById("monitor-3d");
 const screenGlare = document.querySelector(".screen-glare");
 const mon = { p: 0, hoverX: 0, hoverY: 0, sx: 0, sy: 0 };
+let feedTimer = 0;
+let feedHot = -1;
+let typeTimer = 0;
+let lastPhase = -1;
+
+function handleExtras(phase) {
+  document.querySelectorAll("[data-fb]").forEach((el) => {
+    el.classList.toggle("is-on", Number(el.dataset.fb) === phase);
+  });
+
+  if (phase === 2) {
+    if (!feedTimer) {
+      feedTimer = setInterval(() => {
+        const rows = document.querySelectorAll(".feed-row");
+        if (!rows.length) return;
+        feedHot = (feedHot + 1) % rows.length;
+        rows.forEach((r, i) => r.classList.toggle("hot", i === feedHot));
+      }, 1500);
+    }
+  } else if (feedTimer) {
+    clearInterval(feedTimer);
+    feedTimer = 0;
+    document.querySelectorAll(".feed-row").forEach((r) => r.classList.remove("hot"));
+  }
+
+  const ghost = document.querySelector(".mf-text");
+  if (!ghost) return;
+  if (phase === 3) {
+    if (lastPhase !== 3) {
+      clearTimeout(typeTimer);
+      ghost.textContent = "";
+      const msg = "I want to help out.";
+      let i = 0;
+      (function type() {
+        typeTimer = setTimeout(() => {
+          i += 1;
+          ghost.textContent = msg.slice(0, i);
+          if (i < msg.length) type();
+        }, 60);
+      })();
+    }
+  } else {
+    clearTimeout(typeTimer);
+    ghost.textContent = "";
+  }
+  lastPhase = phase;
+}
 
 function updateMonitor() {
   if (!showcase || !m3d) return;
@@ -164,6 +211,7 @@ function updateMonitor() {
     });
     const num = document.getElementById("hud-num");
     if (num) num.textContent = String(phase + 1).padStart(2, "0");
+    handleExtras(phase);
     if (screenGlare) {
       screenGlare.style.translate = `${(24 - mon.sx * 34).toFixed(1)}px ${(-14 - mon.sy * 22).toFixed(1)}px`;
     }
