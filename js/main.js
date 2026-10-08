@@ -131,6 +131,12 @@ const marquees = [...document.querySelectorAll(".marquee-track")].map((t) => ({
 
 (function velLoop() {
   let cur = 0;
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) return;
+    targetVel = 0;
+    cur = 0;
+    blurSections.forEach((s) => (s.style.filter = "", s.style.transform = ""));
+  });
   function step() {
     if (motion) updateMonitor();
     if (motion) {
@@ -246,6 +252,25 @@ document.querySelectorAll(".rv").forEach((el) => io.observe(el));
 
 /* spotlight hover borders on stats + faq cards */
 document.querySelectorAll(".stat, .faq-item").forEach((el) => el.classList.add("spot"));
+
+/* terms page: table-of-contents scroll spy */
+const toc = document.querySelector(".toc");
+if (toc) {
+  const tocLinks = new Map(
+    [...toc.querySelectorAll("a")].map((a) => [a.getAttribute("href").slice(1), a])
+  );
+  const tocIO = new IntersectionObserver(
+    (entries) => {
+      for (const en of entries) {
+        if (!en.isIntersecting) continue;
+        tocLinks.forEach((l) => l.classList.remove("active"));
+        tocLinks.get(en.target.id)?.classList.add("active");
+      }
+    },
+    { rootMargin: "-25% 0px -65% 0px" }
+  );
+  document.querySelectorAll(".doc-sec").forEach((s) => tocIO.observe(s));
+}
 
 
 const steps = document.querySelectorAll(".tl-step");

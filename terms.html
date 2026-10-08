@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — Marko's Commissions</title>
+  <meta name="description" content="The terms of service for Marko's Commissions — quotes, payment, revisions, ownership, and the rules around Discord's own terms.">
+  <meta name="theme-color" content="#050505">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Terms of Service — Marko's Commissions">
+  <meta property="og:description" content="Quotes, payment, revisions, ownership, and Discord compliance — the full terms for working with Marko's Commissions.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      try {
+        var off = localStorage.getItem("marko-motion") === "0";
+        document.documentElement.classList.toggle("motion-on", !off);
+        document.documentElement.dataset.motion = off ? "off" : "on";
+      } catch (e) {
+        document.documentElement.classList.add("motion-on");
+      }
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#doc-top">Skip to content</a>
+
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div id="progress" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <a class="nav-brand" href="index.html">
+      <img class="nav-logo" src="assets/logo.png" alt="" width="32" height="24">
+      <span class="nav-name"><b>Marko's</b>&nbsp;Commissions</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#overview">Overview</a>
+      <a href="terms.html" class="active">Terms</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#apply">Apply</a>
+    </nav>
+    <div class="nav-right">
+      <button class="motion-pill" id="motion-pill" type="button" aria-pressed="true">
+        <span class="motion-dot" aria-hidden="true"></span>Motion&nbsp;<span id="motion-state">On</span>
+      </button>
+      <a class="btn btn-solid nav-cta magnetic" href="index.html#apply">Apply now</a>
+      <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu-links" aria-label="Menu">
+      <a href="index.html#overview" style="--i:0">Overview</a>
+      <a href="terms.html" style="--i:1">Terms</a>
+      <a href="index.html#faq" style="--i:2">FAQ</a>
+      <a href="index.html#apply" style="--i:3">Apply</a>
+    </nav>
+    <p class="menu-foot">marko@marko21022.com · discord.gg/bj8VqJbYXE</p>
+  </div>
+
+  <main id="page">
+    <section class="doc-hero" id="doc-top" data-blur>
+      <span class="watermark" aria-hidden="true">§</span>
+      <div class="container">
+        <p class="sec-label rv"><span class="sec-num">—</span>Legal</p>
+        <h1 class="sec-title rv" style="--d:1">Terms of<br>Service</h1>
+        <p class="sec-lead rv" style="--d:2">
+          The full agreement for working with Marko's Commissions — how quotes,
+          payment, revisions and ownership work, and the rules that keep
+          everything on the right side of Discord's own terms.
+        </p>
+        <p class="terms-updated rv" style="--d:3">Last updated October 2026</p>
+      </div>
+    </section>
+
+    <div class="container doc-grid" id="doc-body" data-blur>
+      <aside class="toc rv" aria-label="On this page">
+        <p class="toc-k">On this page</p>
+        <a href="#s-about">1 · About these terms</a>
+        <a href="#s-services">2 · The services</a>
+        <a href="#s-scope">3 · Scope &amp; changes</a>
+        <a href="#s-payment">4 · Quotes &amp; payment</a>
+        <a href="#s-revisions">5 · Revisions &amp; support</a>
+        <a href="#s-refunds">6 · Refunds &amp; cancellations</a>
+        <a href="#s-ownership">7 · Ownership &amp; licensing</a>
+        <a href="#s-timelines">8 · Timelines &amp; communication</a>
+        <a href="#s-use">9 · Acceptable use</a>
+        <a href="#s-discord">10 · Discord rules</a>
+        <a href="#s-maintenance">11 · After handover</a>
+        <a href="#s-liability">12 · Liability</a>
+        <a href="#s-changes">13 · Changes to these terms</a>
+        <a href="#s-contact">14 · Questions</a>
+      </aside>
+
+      <div class="doc">
+        <section class="doc-sec rv" id="s-about">
+          <h3><span>01</span>About these terms</h3>
+          <p>These terms apply to every commission and order placed with Marko's Commissions ("we", "us", "I"). "You" means the client who places the order. Submitting an application, accepting a quote, or paying a deposit means you agree to them.</p>
+          <p>If something you need isn't covered here, say so before the project starts — anything agreed in writing for your specific project sits alongside these terms and wins if they ever disagree.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-services">
+          <h3><span>02</span>The services</h3>
+          <p>Marko's Commissions offers two services:</p>
+          <ul>
+            <li><b>Graphic design</b> — logos, brand identity, banners, overlays, UI/UX mockups, emotes and other assets, delivered as layered source files.</li>
+            <li><b>Bot services</b> — custom Discord bots built from scratch (moderation, utility, automation, logging, dashboards), delivered documented and ready to host.</li>
+          </ul>
+          <p>Exactly what's included in your order is written down in the scope before work begins — see the next section.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-scope">
+          <h3><span>03</span>Scope &amp; changes</h3>
+          <p>Every project starts with a written scope agreed by both sides: what's being made, how it behaves or looks, and what "done" means. Work outside that scope is re-quoted before it begins — nothing is added to the bill silently.</p>
+          <p>Small things that clearly fall inside the original idea are covered. If a change would meaningfully affect the time or price, you'll get a new quote to accept or decline first.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-payment">
+          <h3><span>04</span>Quotes &amp; payment</h3>
+          <ul>
+            <li>Every project gets a fixed quote in USD. The price you're quoted is the price you pay unless the scope changes.</li>
+            <li>Quotes are firm for 14 days from the date they're sent.</li>
+            <li>Payment is 50% upfront to reserve a slot, the remaining 50% on final delivery — before source files or code are handed over.</li>
+            <li>Design work quoted under $25 is paid in full upfront.</li>
+            <li>Payment instructions are sent when the scope is agreed. Late payments pause your slot in the queue.</li>
+          </ul>
+        </section>
+
+        <section class="doc-sec rv" id="s-revisions">
+          <h3><span>05</span>Revisions &amp; support</h3>
+          <p>Design commissions include <b>three revision rounds</b> — a round is one batch of feedback, not one change. Extra rounds are quoted per round.</p>
+          <p>Bots include <b>free bug fixes for 14 days</b> after handoff: anything that doesn't work the way the scope said it would gets fixed at no cost. New features, new commands and changes of direction are new work, quoted separately.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-refunds">
+          <h3><span>06</span>Refunds &amp; cancellations</h3>
+          <ul>
+            <li>Cancel before work starts: full refund of everything paid.</li>
+            <li>Cancel mid-project: refund proportional to the work not yet done, at our discretion.</li>
+            <li>Once final delivery is accepted and paid, the order is complete and non-refundable — support windows still apply.</li>
+            <li>Chargebacks filed without talking to us first end the project immediately and forfeit the deposit.</li>
+          </ul>
+        </section>
+
+        <section class="doc-sec rv" id="s-ownership">
+          <h3><span>07</span>Ownership &amp; licensing</h3>
+          <p>On final payment, the finished result is yours outright — source files for design work, full source code for bots. We keep the right to show completed work in a portfolio unless you ask us not to in writing.</p>
+          <p>Third-party material inside a delivery (fonts, open-source libraries, platform assets) stays under its own license — you're responsible for using it in line with that license.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-timelines">
+          <h3><span>08</span>Timelines &amp; communication</h3>
+          <p>Delivery estimates are honest estimates, not guarantees — they depend on scope and the current queue. If a deadline ever looks like it might slip, you hear about it before it happens, with a reason and a new date.</p>
+          <p>Clear communication goes both ways. If a project goes quiet for <b>14+ days</b> with no contact from you, it's paused; after 30 days it's closed and the upfront payment is retained.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-use">
+          <h3><span>09</span>Acceptable use</h3>
+          <p>Our work may not be used for anything illegal, or for harassment, hate, scams, spam, raiding, doxxing or distributing malware. Requests that clearly exist to break a platform's rules — mass-DM tools, fake-utility scams, raid automation — are refused and refunded if already started.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-discord">
+          <h3><span>10</span>Discord's terms &amp; guidelines</h3>
+          <p>Because most of this work lives on Discord, both sides are expected to follow Discord's own rules at all times:</p>
+          <div class="discord-box">
+            <p><b>Discord Terms of Service</b> — you need a Discord account in good standing, at least 13 years old (or the higher minimum age required in your country), and you may not evade bans or share account credentials.</p>
+            <p><b>Automation rules</b> — all automation we build runs on official bot accounts through Discord's bot application process. Self-bots and any automation through user accounts break Discord's Terms of Service and are refused.</p>
+            <p><b>Bot tokens</b> — treat bot tokens like passwords. If you request hosting support, tokens are stored only with your knowledge; regenerating a token in the developer portal will disconnect a hosted bot until it's updated.</p>
+            <p><b>Community Guidelines</b> — servers your bot operates in must follow Discord's Community Guidelines (no harassment, hate, illegal content or scams). We won't build or maintain features intended for servers that ignore them.</p>
+            <p class="doc-links">
+              <a href="https://discord.com/terms" target="_blank" rel="noopener noreferrer">discord.com/terms</a>
+              <a href="https://discord.com/guidelines" target="_blank" rel="noopener noreferrer">discord.com/guidelines</a>
+            </p>
+          </div>
+          <p>If a project turns out to require breaking Discord's terms, it's cancelled with a refund proportional to the work remaining — and we'll tell you why.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-maintenance">
+          <h3><span>11</span>After handover</h3>
+          <p>After the 14-day bug-fix window, ongoing maintenance, hosting and new features are available by separate agreement. Discord occasionally changes its API or rules; when that breaks something that used to work, the update needed to fix it is quoted as new work.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-liability">
+          <h3><span>12</span>Liability</h3>
+          <p>Services are provided as-is once delivered. We're not liable for indirect damages, lost revenue, or actions taken by Discord or other platforms against your server or account. To the maximum extent permitted by law, total liability is capped at the amount you actually paid for the project in question.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-changes">
+          <h3><span>13</span>Changes to these terms</h3>
+          <p>These terms may be updated from time to time — the date at the top always shows the current version. Projects already in progress follow the terms they started under.</p>
+        </section>
+
+        <section class="doc-sec rv" id="s-contact">
+          <h3><span>14</span>Questions</h3>
+          <p>Anything here you want clarified, ask before the project starts — it's much easier for everyone.</p>
+          <div class="contact-strip">
+            <button class="contact-card spot" type="button" data-mail-open>
+              <span class="contact-k">Business email — backup</span>
+              <span class="contact-v">marko@marko21022.com</span>
+            </button>
+            <a class="contact-card spot contact-primary" href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer">
+              <span class="contact-k"><img src="assets/logos/discord.svg" alt="" width="15" height="15">Discord server — fastest</span>
+              <span class="contact-v">discord.gg/bj8VqJbYXE</span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <section class="cta-band" data-blur>
+      <div class="container cta-inner">
+        <h2 class="rv">Happy with<br>the fine print?</h2>
+        <p class="rv" style="--d:1">Send an application — the quote comes before any work starts.</p>
+        <div class="cta-actions rv" style="--d:2">
+          <a class="btn btn-discord magnetic" href="index.html#apply">
+            Apply now
+            <svg class="btn-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost magnetic" href="index.html">Back to home</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img class="footer-logo" src="assets/logo.png" alt="Marko's Commissions logo" width="36" height="27">
+        <div>
+          <p class="footer-name"><b>Marko's</b>&nbsp;Commissions</p>
+          <p class="footer-tag">Graphic design &amp; bot services.</p>
+        </div>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="index.html#overview">Overview</a>
+        <a href="terms.html">Terms</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#apply">Apply</a>
+      </nav>
+      <div class="footer-meta">
+        <button class="link-btn mono" type="button" data-mail-open>marko@marko21022.com</button>
+        <a href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer">discord.gg/bj8VqJbYXE</a>
+        <p>© 2026 <b>Marko's</b> Commissions — All rights reserved.</p>
+      </div>
+    </div>
+    <div class="container footer-line">
+      <p>These terms were written to be read, not skimmed past.</p>
+      <a href="#doc-top" class="to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <div class="mail-modal" id="mail-modal" aria-hidden="true">
+    <div class="mail-backdrop" data-mail-close></div>
+    <div class="mail-card" role="dialog" aria-modal="true" aria-labelledby="mail-title">
+      <button class="mail-x" type="button" data-mail-close aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <p class="mail-k">Contact</p>
+      <h3 id="mail-title">marko@marko21022.com</h3>
+      <p class="mail-sub">Discord is the fastest way to reach us — email is the backup.</p>
+      <div class="mail-options">
+        <a class="mail-opt mail-primary" href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer">
+          <span class="mail-ico" style="--tile:#5865f2">
+            <img src="assets/logos/discord.svg" alt="" width="24" height="24">
+          </span>
+          <span class="mail-txt"><b>Join the Discord</b><span>Fastest — message us directly in the server</span></span>
+          <svg class="mail-arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p class="mail-div">or email — if you can't join the Discord</p>
+        <a class="mail-opt" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=marko%40marko21022.com" target="_blank" rel="noopener noreferrer">
+          <span class="mail-ico mail-ico-light">
+            <img src="assets/logos/gmail.svg" alt="" width="24" height="24">
+          </span>
+          <span class="mail-txt"><b>Gmail</b><span>Opens Gmail compose in a new tab</span></span>
+          <svg class="mail-arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="mail-opt" href="https://outlook.live.com/mail/0/deeplink/compose?to=marko%40marko21022.com" target="_blank" rel="noopener noreferrer">
+          <span class="mail-ico" style="--tile:#0f6cbd">
+            <img src="assets/logos/outlook.svg" alt="" width="24" height="24">
+          </span>
+          <span class="mail-txt"><b>Outlook</b><span>Opens Outlook compose in a new tab</span></span>
+          <svg class="mail-arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="mail-opt" href="https://compose.mail.yahoo.com/?to=marko%40marko21022.com" target="_blank" rel="noopener noreferrer">
+          <span class="mail-ico" style="--tile:#6001d2">
+            <img src="assets/logos/yahoo.svg" alt="" width="24" height="24">
+          </span>
+          <span class="mail-txt"><b>Yahoo Mail</b><span>Opens Yahoo compose in a new tab</span></span>
+          <svg class="mail-arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="mail-opt" href="mailto:marko@marko21022.com">
+          <span class="mail-ico" style="--tile:#3f3f46">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.2" y="5.6" width="17.6" height="12.8" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><path d="m4 7 8 6 8-6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="mail-txt"><b>Default mail app</b><span>Opens whatever your device uses</span></span>
+          <svg class="mail-arr" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="mail-actions">
+        <button class="btn btn-solid btn-copy" id="mail-copy" type="button">Copy address</button>
+        <button class="btn btn-ghost" type="button" data-mail-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Email address copied</div>
+
+  <script src="js/lenis.min.js"></script>
+  <script type="module" src="js/bg-fbm.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
