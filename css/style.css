@@ -1936,3 +1936,40 @@ html.motion-on .chat-launcher .cl-pulse::after {
 @media (max-width: 540px) {
   .closed-panel { padding: 40px 24px 36px; }
 }
+
+/* bedazzle: cursor click pulse */
+.cursor-dot { transition: opacity 0.25s ease, scale 0.22s var(--ease); }
+.cursor-dot.click { scale: 2.1; }
+
+/* bedazzle: animated stat hairline */
+html.motion-on .stat::before {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+  background-size: 200% 100%;
+  animation: hairline 5s ease-in-out infinite;
+}
+@keyframes hairline {
+  0% { background-position: 120% 0; }
+  100% { background-position: -120% 0; }
+}
+
+/* bedazzle: terms doc hover accent */
+.doc-sec { border-left: 2px solid rgba(255,255,255,.08); }
+.doc-sec:hover { border-left-color: rgba(255,255,255,.55); }
+
+/* bedazzle: closed panel icon float */
+html.motion-on .closed-ico { animation: ico-float 5s ease-in-out infinite; }
+@keyframes ico-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* bedazzle: footer wordmark breathe */
+html.motion-on .footer-mark { animation: mark-breathe 7s ease-in-out infinite; }
+@keyframes mark-breathe {
+  0%, 100% { -webkit-text-stroke-color: rgba(255,255,255,.055); }
+  50% { -webkit-text-stroke-color: rgba(255,255,255,.11); }
+}
+
+/* bedazzle: chat panel top shimmer */
+.chat-head::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(88,101,242,.6), transparent);
+}
+.chat-head { position: relative; overflow: hidden; }

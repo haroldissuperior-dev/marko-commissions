@@ -120,6 +120,27 @@ export const KB = [
     a: "Marko runs Marko's Commissions — graphic design and Discord bot services. Fastest way to reach him is the Discord server.",
     links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
   },
+  {
+    k: ["how are you", "how re you", "how are things", "you good", "how do you feel", "hows it going", "how is it going"],
+    a: "Running smooth — servers up, queue quiet, and I get to chat with people all day. What can I help with: pricing, hosting, applying?",
+  },
+  {
+    k: ["whats up", "what s up", "wyd", "what are you up to"],
+    a: "Same as always — building bots, polishing pixels, answering questions. What can I dig into for you?",
+  },
+  {
+    k: ["joke", "make me laugh", "funny", "tell me something funny"],
+    a: "I told the server a joke about latency… it's still loading the punchline.",
+  },
+  {
+    k: ["do you sleep", "are you smart", "do you ever sleep", "are you alive"],
+    a: "Bots don't sleep — that's the point. I'm smart enough to know what I don't know, though: anything important goes straight to the humans in the Discord.",
+    links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
+  },
+  {
+    k: ["ok", "cool", "nice", "great", "lol", "haha", "lmao", "good", "awesome", "perfect"],
+    a: "Glad to hear it. Anything else — pricing, hosting, timelines — just ask.",
+  },
 ];
 
 export const FALLBACK =

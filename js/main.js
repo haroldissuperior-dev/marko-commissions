@@ -5,7 +5,7 @@
 const html = document.documentElement;
 const body = document.body;
 const EMAIL = "marko@marko21022.com";
-const SITE_VERSION = "V.1.22";
+const SITE_VERSION = "V.1.23";
 
 const motion = true;
 
@@ -647,11 +647,16 @@ function initCursor() {
     if (e.pointerType === "touch") return;
     dot.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
   });
+  window.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "touch") return;
+    dot.classList.add("click");
+    setTimeout(() => dot.classList.remove("click"), 260);
+  });
   document.documentElement.addEventListener("mouseleave", () => (dot.style.opacity = "0"));
   document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
-console.log("%cMarko's Commissions V.1.22", "color:#9d9da4;font-family:monospace;");
+console.log("%cMarko's Commissions V.1.23", "color:#9d9da4;font-family:monospace;");
 html.classList.add("motion-on");
 html.dataset.motion = "on";
 window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));
