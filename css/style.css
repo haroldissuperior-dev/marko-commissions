@@ -1150,20 +1150,33 @@ html.motion-on .screen-scan { animation: scan 7s linear infinite; }
 .feed-row p b { color: #e0e0e4; font-weight: 600; }
 .feed-row span { font-family: var(--mono); font-size: clamp(8.5px, 1vw, 10px); color: var(--dim); }
 
-.scr-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4%; }
-.scr-stats div {
-  border: 1px solid var(--line); border-radius: 13px;
-  padding: clamp(10px, 1.8vw, 16px) clamp(12px, 2vw, 18px);
+.mini-form {
+  margin-top: 4%;
+  border: 1px solid var(--line); border-radius: 14px;
   background: rgba(255,255,255,.02);
+  padding: clamp(10px, 1.8vw, 16px);
+  display: grid; gap: clamp(8px, 1.4vw, 12px);
 }
-.scr-stats b {
-  display: block; font-family: var(--disp); font-weight: 700;
-  font-size: clamp(17px, 2.6vw, 26px); letter-spacing: -0.02em; color: #fff;
-}
-.scr-stats span {
-  font-family: var(--mono); font-size: clamp(8px, 1vw, 9.5px);
+.mf-row { display: grid; gap: 5px; }
+.mf-label {
+  font-family: var(--mono); font-size: clamp(7.5px, 0.95vw, 9.5px);
   letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim);
 }
+.mf-field {
+  display: flex; align-items: center;
+  min-height: clamp(24px, 3.4vw, 34px);
+  border: 1px solid var(--line); border-radius: 9px;
+  background: rgba(255,255,255,.03);
+  padding: 0 clamp(9px, 1.5vw, 13px);
+  font-size: clamp(10.5px, 1.5vw, 13px); color: #cfcfd5;
+}
+.mf-ghost { position: relative; overflow: hidden; }
+.mf-ghost::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent);
+}
+html.motion-on .mf-ghost::after { animation: mf-shimmer 2.4s ease-in-out infinite; }
+@keyframes mf-shimmer { 0% { transform: translateX(-100%); } 60%, 100% { transform: translateX(100%); } }
 
 .term {
   margin-top: 4%;
@@ -1310,17 +1323,13 @@ html.motion-on .loader-line i { animation: loadline 0.95s var(--ease) 0.1s forwa
 @keyframes loadline { to { transform: scaleX(1); } }
 
 /* custom cursor (fine pointers, motion on) */
-.cursor-dot, .cursor-ring {
+.cursor-dot {
   position: fixed; left: 0; top: 0; z-index: 650; pointer-events: none;
-  border-radius: 50%; opacity: 0;
+  width: 9px; height: 9px; border-radius: 50%; opacity: 0;
+  background: #fff; mix-blend-mode: difference;
+  transition: opacity 0.25s ease;
 }
-.cursor-dot { width: 7px; height: 7px; background: #fff; mix-blend-mode: difference; }
-.cursor-ring {
-  width: 34px; height: 34px; border: 1.5px solid rgba(255,255,255,.5);
-  transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s ease, opacity 0.3s ease;
-}
-.cursor-ring.hot { width: 56px; height: 56px; border-color: rgba(255,255,255,.9); }
-html.has-cursor .cursor-dot, html.has-cursor .cursor-ring { opacity: 1; }
+html.has-cursor .cursor-dot { opacity: 1; }
 html.has-cursor, html.has-cursor * { cursor: none !important; }
 
 /* ambient hero orbs */

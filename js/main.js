@@ -565,39 +565,18 @@ function initCursor() {
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (!fine) return;
   let dot = document.querySelector(".cursor-dot");
-  let ring = document.querySelector(".cursor-ring");
   if (!dot) {
     dot = document.createElement("div");
     dot.className = "cursor-dot";
-    ring = document.createElement("div");
-    ring.className = "cursor-ring";
-    document.body.append(dot, ring);
+    document.body.append(dot);
   }
   html.classList.add("has-cursor");
-  let x = innerWidth / 2, y = innerHeight / 2, rx = x, ry = y, seen = false;
   window.addEventListener("pointermove", (e) => {
     if (e.pointerType === "touch") return;
-    x = e.clientX; y = e.clientY;
-    if (!seen) { seen = true; rx = x; ry = y; }
-    dot.style.transform = `translate(${x - 3.5}px, ${y - 3.5}px)`;
-    const hot = e.target.closest("a, button, summary, input, select, textarea, .card, .spot");
-    ring.classList.toggle("hot", !!hot);
+    dot.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
   });
-  document.documentElement.addEventListener("mouseleave", () => {
-    dot.style.opacity = "0";
-    ring.style.opacity = "0";
-  });
-  document.documentElement.addEventListener("mouseenter", () => {
-    dot.style.opacity = "";
-    ring.style.opacity = "";
-  });
-  (function cloop() {
-    rx += (x - rx) * 0.18;
-    ry += (y - ry) * 0.18;
-    const half = ring.classList.contains("hot") ? 28 : 17;
-    ring.style.transform = `translate(${rx - half}px, ${ry - half}px)`;
-    requestAnimationFrame(cloop);
-  })();
+  document.documentElement.addEventListener("mouseleave", () => (dot.style.opacity = "0"));
+  document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
 html.classList.add("motion-on");
