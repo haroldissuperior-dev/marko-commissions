@@ -15,6 +15,9 @@
   --grad-text: linear-gradient(180deg, #ffffff 18%, #c9c9cf 78%, #97979e 100%);
 }
 
+@view-transition { navigation: auto; }
+@keyframes pagein { from { opacity: 0; } }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
@@ -32,6 +35,7 @@ html, body { overflow-x: clip; }
 }
 
 body {
+  animation: pagein 0.45s ease both;
   font-family: var(--body);
   background: var(--bg);
   color: var(--fg);
@@ -110,6 +114,7 @@ html.motion-on .cursor-glow { opacity: 1; }
   -webkit-backdrop-filter: blur(24px) saturate(1.35);
   backdrop-filter: blur(24px) saturate(1.35);
   border-bottom-color: var(--line);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.5);
   padding: 12px 28px;
 }
 .nav.hidden { transform: translateY(-100%); }
@@ -226,14 +231,36 @@ html.motion-on .ripple { animation: ripple 0.65s var(--ease) forwards; }
   opacity: 0; visibility: hidden; transition: opacity 0.45s ease, visibility 0.45s;
 }
 .menu.open { opacity: 1; visibility: visible; }
-.menu-links { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.menu-links a {
-  font-family: var(--disp); font-weight: 600; font-size: 46px; letter-spacing: -0.03em;
-  color: var(--fg); opacity: 1; transform: none; filter: none;
+.menu-links {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 4px; width: min(560px, calc(100vw - 48px));
 }
+.menu-links a {
+  display: flex; align-items: baseline; gap: 20px;
+  font-family: var(--serif); font-weight: 600;
+  font-size: clamp(42px, 7.5vh, 68px); line-height: 1.12; letter-spacing: -0.02em;
+  color: var(--fg); opacity: 1; transform: none; filter: none;
+  padding: 4px 0;
+}
+.ml-num { font-family: var(--mono); font-size: clamp(10px, 1.6vh, 12px); letter-spacing: 0.22em; color: var(--dim); }
+.ml-txt { position: relative; transition: font-style 0.2s ease; }
+.ml-txt::after {
+  content: ""; position: absolute; left: 0; bottom: 0.08em; height: 1px; width: 100%;
+  background: linear-gradient(90deg, #fff, rgba(255,255,255,.25));
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.5s var(--ease);
+}
+.menu-links a:hover .ml-txt::after { transform: scaleX(1); transform-origin: left; }
+.menu-links a:hover .ml-txt { font-style: italic; }
+.menu-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 4vh; }
+.menu-actions .btn { padding: 12px 22px; font-size: 13.5px; }
 html.motion-on .menu-links a { opacity: 0; transform: translateY(26px); filter: blur(10px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), filter 0.7s var(--ease); transition-delay: calc(0.08s + var(--i) * 0.07s); }
 html.motion-on .menu.open .menu-links a { opacity: 1; transform: none; filter: none; }
-.menu-foot { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.menu-foot {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--dim);
+  display: flex; align-items: center; gap: 10px;
+}
 
 
 .hero {
@@ -869,8 +896,18 @@ html.motion-on .cta-band::before { animation: halo 6s ease-in-out infinite; }
 .footer-name { font-family: var(--disp); font-weight: 500; font-size: 17px; color: #b6b6bd; }
 .footer-tag { color: var(--mut); font-size: 13.5px; margin-top: 2px; }
 .footer-links { display: flex; gap: 26px; }
-.footer-links a { font-size: 13.5px; color: var(--mut); transition: color 0.3s ease; }
+.footer-links a {
+  position: relative; font-size: 13.5px; color: var(--mut);
+  transition: color 0.3s ease;
+}
+.footer-links a::after {
+  content: ""; position: absolute; left: 0; bottom: -3px; height: 1px; width: 100%;
+  background: linear-gradient(90deg, #fff, rgba(255,255,255,.3));
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
 .footer-links a:hover { color: var(--fg); }
+.footer-links a:hover::after { transform: scaleX(1); transform-origin: left; }
 .footer-meta { text-align: right; display: grid; gap: 7px; }
 .footer-meta p { font-size: 13px; color: var(--dim); }
 .footer-meta p b { color: #cfcfd4; font-weight: 700; }
