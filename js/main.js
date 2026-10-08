@@ -5,7 +5,7 @@
 const html = document.documentElement;
 const body = document.body;
 const EMAIL = "marko@marko21022.com";
-const SITE_VERSION = "V.1.17";
+const SITE_VERSION = "V.1.18";
 
 const motion = true;
 
@@ -651,7 +651,7 @@ function initCursor() {
   document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
-console.log("%cMarko's Commissions V.1.17", "color:#9d9da4;font-family:monospace;");
+console.log("%cMarko's Commissions V.1.18", "color:#9d9da4;font-family:monospace;");
 html.classList.add("motion-on");
 html.dataset.motion = "on";
 window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));
@@ -690,7 +690,7 @@ if (motion && loader && !booted) {
 const SUGGESTIONS = [
   "How much does it cost?",
   "Is hosting really free?",
-  "How do I apply?",
+  "Are applications open?",
   "Will I get the source code?",
 ];
 const CHAT_GREETING =

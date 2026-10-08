@@ -7,7 +7,7 @@ export const SITE = {
 };
 
 export const GREETING =
-  "Hey! I'm Clanko V2 — ask me about pricing, hosting, bug fixes, applying, or anything else on the site.";
+  "Hey! I'm Clanko V2 — ask me about pricing, hosting, bug fixes, applications, or anything else on the site.";
 
 export const KB = [
   {
@@ -52,9 +52,9 @@ export const KB = [
     a: "Full refund if work hasn't started. Mid-project, refunds are proportional to the work remaining. Once delivery is accepted and paid, the order is complete — support still applies.",
   },
   {
-    k: ["apply", "application", "join", "support team", "staff", "recruit", "mod", "hiring"],
-    a: "Support applications are open — it's the only role being recruited right now. The form on this site goes straight to the team's Discord, and you'll hear back on Discord or by email.",
-    links: [{ label: "Go to application", href: "/index.html#apply" }],
+    k: ["apply", "application", "join", "support team", "staff", "recruit", "mod", "hiring", "closed", "open"],
+    a: "Support applications are currently closed. When they reopen, the form comes back on this site — and the reopening is always announced in the Discord first, so join and turn on announcements to catch it.",
+    links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
   },
   {
     k: ["contact", "email", "reach", "speak", "talk to"],
