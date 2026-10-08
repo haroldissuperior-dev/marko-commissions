@@ -35,6 +35,7 @@ const heroInner = document.getElementById("hero-inner");
 const heroWords = document.querySelectorAll(".hero-h1 .w");
 const heroTexts = document.querySelectorAll(".hero-sub, .hero-cta, .hero-facts, .hero-logo-wrap");
 const progress = document.getElementById("progress");
+const fab = document.getElementById("to-top-fab");
 const tl = document.getElementById("tl");
 const tlFill = document.getElementById("tl-fill");
 const watermarks = document.querySelectorAll(".watermark");
@@ -88,6 +89,8 @@ function onScroll(e) {
   /* monitor showcase: rotate with scroll, swap screen phases */
   updateMonitor();
 
+  if (fab) fab.classList.toggle("show", y > 700);
+
   window.dispatchEvent(new CustomEvent("uim-scroll", { detail: { y } }));
 }
 
@@ -104,7 +107,14 @@ const marquees = [...document.querySelectorAll(".marquee-track")].map((t) => ({
   x: 0,
   dir: t.classList.contains("reverse") ? 1 : -1,
   w: 0,
+  slow: false,
 }));
+marquees.forEach((m) => {
+  const wrap = m.el.closest(".marquee");
+  if (!wrap) return;
+  wrap.addEventListener("pointerenter", () => (m.slow = true));
+  wrap.addEventListener("pointerleave", () => (m.slow = false));
+});
 
 (function velLoop() {
   let cur = 0;
@@ -116,7 +126,7 @@ const marquees = [...document.querySelectorAll(".marquee-track")].map((t) => ({
       const boost = Math.min(Math.abs(cur) * 0.12, 14);
       for (const m of marquees) {
         if (!m.w) m.w = m.el.scrollWidth / 4 || 1;
-        m.x += m.dir * (0.55 + boost);
+        m.x += m.dir * (0.55 + boost) * (m.slow ? 0.25 : 1);
         if (m.x <= -m.w) m.x += m.w;
         if (m.x >= 0) m.x -= m.w;
         m.el.style.transform = `translateX(${m.x.toFixed(1)}px)`;
@@ -452,9 +462,22 @@ const successPanel = document.getElementById("form-success");
 const ENDPOINT = "/api/apply";
 
 if (form) {
+  form.querySelectorAll("input, select, textarea").forEach((el) => {
+    const clear = () => { const f = el.closest(".field"); if (f) f.classList.remove("bad"); };
+    el.addEventListener("input", clear);
+    el.addEventListener("change", clear);
+  });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!form.checkValidity()) {
+      form.querySelectorAll(".field").forEach((f) => {
+        const ctrl = f.querySelector("input, select, textarea");
+        f.classList.toggle("bad", !!ctrl && !ctrl.checkValidity());
+      });
+      form.reportValidity();
+      return;
+    }
 
     const data = Object.fromEntries(new FormData(form).entries());
     const btn = form.querySelector(".btn-submit");
@@ -592,6 +615,15 @@ try { booted = sessionStorage.getItem("marko-booted") === "1"; } catch {}
 
 if (motion && loader && !booted) {
   try { sessionStorage.setItem("marko-booted", "1"); } catch {}
+  const pctEl = document.getElementById("loader-pct");
+  if (pctEl) {
+    const t0 = performance.now();
+    (function pctTick() {
+      const p = Math.min((performance.now() - t0) / 900, 1);
+      pctEl.textContent = String(Math.round(p * 100));
+      if (p < 1) requestAnimationFrame(pctTick);
+    })();
+  }
   setTimeout(() => {
     markLoaded();
     loader.classList.add("done");
