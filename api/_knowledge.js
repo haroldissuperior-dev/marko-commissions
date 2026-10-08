@@ -18,6 +18,11 @@ export const KB = [
     a: "This entire website — the design, the code and all of its contents — was made by KBlasts (ui.matt).",
   },
   {
+    k: ["who created the bot", "who made clanko", "who created clanko", "who made the bot",
+        "who made the server", "who created the server", "who owns the server", "who owns the brand"],
+    a: "Clanko V2, the Marko's Commissions brand and the Discord server were all created by Marko. This website — its design, code and contents — was made by KBlasts (ui.matt).",
+  },
+  {
     k: ["what can you do", "what do you know", "help me", "capabilities", "options", "help"],
     a: "I can answer questions about the services, pricing, hosting, bug fixes, ownership, timelines, the terms, and how applications work. Try me — or ask about anything you see on the site.",
   },
@@ -190,7 +195,7 @@ export function retrieve(msg, context) {
     let s = 0;
     for (const kw of e.k) {
       if (kw.includes(" ")) {
-        if (norm.includes(" " + kw.toLowerCase() + " ")) s += 5;
+        if (norm.includes(" " + kw.toLowerCase() + " ")) s += 4 + kw.split(" ").length;
         else if (kw.toLowerCase().split(" ").every((w) => norm.includes(" " + w))) s += 3;
       } else {
         const skw = stem(kw.toLowerCase());
@@ -213,6 +218,7 @@ export function systemPrompt() {
     "You are Clanko V2, the assistant embedded on the Marko's Commissions website",
     "(marko-commissions.vercel.app) — a commission service for graphic design and Discord bots.",
     "This website — its design, code and contents — was made by KBlasts (ui.matt).",
+    "Marko's Commissions itself, the Clanko V2 bot and the Discord server were created by Marko — KBlasts did not create the brand, the bot or the server, only the website.",
     "Answer ONLY from the facts below. Be friendly, concise (under 80 words), plain text, no markdown headers.",
     "If a question isn't covered by the facts, say you don't know and point people to the Discord server",
     "(https://discord.gg/bj8VqJbYXE) or the email marko@marko21022.com.",
