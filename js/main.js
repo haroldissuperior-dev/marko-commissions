@@ -5,7 +5,7 @@
 const html = document.documentElement;
 const body = document.body;
 const EMAIL = "marko@marko21022.com";
-const SITE_VERSION = "V.1.16";
+const SITE_VERSION = "V.1.17";
 
 const motion = true;
 
@@ -651,7 +651,7 @@ function initCursor() {
   document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
-console.log("%cMarko's Commissions V.1.16", "color:#9d9da4;font-family:monospace;");
+console.log("%cMarko's Commissions V.1.17", "color:#9d9da4;font-family:monospace;");
 html.classList.add("motion-on");
 html.dataset.motion = "on";
 window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));
@@ -684,3 +684,204 @@ if (motion && loader && !booted) {
   requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(markLoaded, 60)));
   setTimeout(markLoaded, 700);
 }
+
+/* ---------------- Clanko V2 assistant ---------------- */
+
+const SUGGESTIONS = [
+  "How much does it cost?",
+  "Is hosting really free?",
+  "How do I apply?",
+  "Will I get the source code?",
+];
+const CHAT_GREETING =
+  "Hey! I'm Clanko V2 — ask me about pricing, hosting, bug fixes, applying, or anything else on the site.";
+const CHAT_FALLBACK =
+  "I can't reach my brain right now — the Discord can though: discord.gg/bj8VqJbYXE";
+
+function initChat() {
+  const launcher = document.getElementById("chat-launcher");
+  if (!launcher) return;
+
+  const teaser = document.getElementById("chat-teaser");
+  const teaserX = document.getElementById("chat-teaser-x");
+  const panel = document.getElementById("chat-panel");
+  const chatX = document.getElementById("chat-x");
+  const log = document.getElementById("chat-log");
+  const sugs = document.getElementById("chat-sugs");
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("chat-text");
+
+  let chatOpen = false;
+  let greeted = false;
+  let chatBusy = false;
+  const chatHistory = [];
+
+  function setPanel(open) {
+    chatOpen = open;
+    panel.classList.toggle("open", open);
+    launcher.classList.toggle("active", open);
+    panel.setAttribute("aria-hidden", String(!open));
+    if (open) {
+      input.focus();
+      if (!greeted) {
+        greeted = true;
+        botSay(CHAT_GREETING, [], true);
+        renderSugs();
+      }
+    }
+  }
+
+  launcher.addEventListener("click", () => setPanel(!chatOpen));
+  chatX.addEventListener("click", () => setPanel(false));
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && chatOpen) setPanel(false);
+  });
+
+  // teaser bubble once per session
+  let teased = false;
+  try { teased = sessionStorage.getItem("clanko-teased") === "1"; } catch {}
+  if (!teased) {
+    setTimeout(() => {
+      teaser.classList.add("show");
+      setTimeout(() => teaser.classList.remove("show"), 9000);
+    }, 3500);
+    try { sessionStorage.setItem("clanko-teased", "1"); } catch {}
+  }
+  teaserX.addEventListener("click", () => teaser.classList.remove("show"));
+  teaser.addEventListener("click", (e) => {
+    if (e.target === teaserX) return;
+    teaser.classList.remove("show");
+    setPanel(true);
+  });
+
+  function renderSugs() {
+    sugs.innerHTML = "";
+    SUGGESTIONS.forEach((s) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chat-sug";
+      b.textContent = s;
+      b.addEventListener("click", () => ask(s));
+      sugs.appendChild(b);
+    });
+  }
+
+  function addMsg(role, text) {
+    const row = document.createElement("div");
+    row.className = "chat-msg " + role;
+    if (role === "bot") {
+      const ava = document.createElement("span");
+      ava.className = "chat-m-ava";
+      ava.innerHTML = '<img src="assets/logo.png" alt="" width="18" height="14">';
+      row.appendChild(ava);
+    }
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble";
+    row.appendChild(bubble);
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+    return bubble;
+  }
+
+  function botSay(text, links, instant) {
+    const bubble = addMsg("bot", "");
+    const span = document.createElement("span");
+    bubble.appendChild(span);
+    if (instant) {
+      span.textContent = text;
+    } else {
+      let i = 0;
+      const step = Math.max(1, Math.round(text.length / 90));
+      const tw = setInterval(() => {
+        i = Math.min(i + step, text.length);
+        span.textContent = text.slice(0, i);
+        log.scrollTop = log.scrollHeight;
+        if (i >= text.length) clearInterval(tw);
+      }, 14);
+    }
+    if (links && links.length) {
+      const wrap = document.createElement("div");
+      wrap.className = "chat-links";
+      links.forEach((l) => {
+        const a = document.createElement("a");
+        a.href = l.href.includes("#") && document.getElementById(l.href.split("#")[1])
+          ? "#" + l.href.split("#")[1]
+          : l.href;
+        a.textContent = l.href === a.href ? l.label : l.label;
+        if (l.href.startsWith("http")) {
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+        } else {
+          a.addEventListener("click", () => setTimeout(() => setPanel(false), 400));
+        }
+        wrap.appendChild(a);
+      });
+      bubble.appendChild(wrap);
+    }
+  }
+
+  function userSay(text) {
+    const row = document.createElement("div");
+    row.className = "chat-msg user";
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble";
+    bubble.textContent = text;
+    row.appendChild(bubble);
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function typing() {
+    const row = document.createElement("div");
+    row.className = "chat-msg bot";
+    row.id = "chat-typing";
+    const ava = document.createElement("span");
+    ava.className = "chat-m-ava";
+    ava.innerHTML = '<img src="assets/logo.png" alt="" width="18" height="14">';
+    const bubble = document.createElement("div");
+    bubble.className = "chat-bubble typing";
+    bubble.innerHTML = "<i></i><i></i><i></i>";
+    row.append(ava, bubble);
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+    return row;
+  }
+
+  async function ask(text) {
+    text = text.trim();
+    if (!text || chatBusy) return;
+    chatBusy = true;
+    userSay(text);
+    chatHistory.push({ role: "user", content: text });
+    sugs.innerHTML = "";
+    const t = typing();
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history: chatHistory.slice(-6) }),
+      });
+      const json = await res.json().catch(() => ({}));
+      t.remove();
+      const reply = json && json.ok ? json.reply : CHAT_FALLBACK;
+      const links = (json && json.links) || [];
+      botSay(reply, links);
+      if (json && json.ok) chatHistory.push({ role: "assistant", content: reply });
+    } catch {
+      t.remove();
+      botSay(CHAT_FALLBACK, [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }]);
+    } finally {
+      chatBusy = false;
+      renderSugs();
+    }
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = input.value;
+    input.value = "";
+    ask(v);
+  });
+}
+
+initChat();

@@ -6,7 +6,7 @@
   <title>Marko's Commissions — Graphic Design &amp; Bot Services</title>
   <meta name="description" content="Marko's Commissions is a commission service for graphic design and custom Discord bots. Fixed quotes, direct communication, and work delivered finished.">
   <meta name="theme-color" content="#050505">
-  <meta name="version" content="V.1.16">
+  <meta name="version" content="V.1.17">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/logo.png">
 
@@ -569,7 +569,7 @@
       </div>
     </div>
     <div class="container footer-line">
-      <p>All work quoted and delivered as described in the terms above. <span class="ver">V.1.16</span></p>
+      <p>All work quoted and delivered as described in the terms above. <span class="ver">V.1.17</span></p>
       <a href="#top" class="to-top">Back to top ↑</a>
     </div>
   </footer>
@@ -631,6 +631,37 @@
   <div class="toast" id="toast" role="status" aria-live="polite">Email address copied</div>
 
   <button class="to-top-fab" id="to-top-fab" type="button" aria-label="Back to top"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 12V2M3 5.5 7 2l4 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+  <!-- Clanko V2 assistant -->
+  <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Chat with Clanko V2">
+    <img src="assets/logo.png" alt="" width="26" height="20">
+    <span class="cl-pulse"></span>
+  </button>
+  <div class="chat-teaser" id="chat-teaser" aria-hidden="true">
+    <p>Hey! I'm Clanko V2 — ask me anything about the site.</p>
+    <button type="button" class="chat-teaser-x" id="chat-teaser-x" aria-label="Dismiss">&times;</button>
+  </div>
+  <section class="chat-panel" id="chat-panel" aria-hidden="true" role="dialog" aria-label="Chat with Clanko V2">
+    <header class="chat-head">
+      <span class="chat-ava"><img src="assets/logo.png" alt="" width="22" height="17"><i></i></span>
+      <div class="chat-id">
+        <b>Clanko V2 <span class="app-badge"><svg width="9" height="9" viewBox="0 0 16 16" aria-hidden="true"><path fill="#fff" d="M6.5 13.5 1 8l1.9-1.9 3.6 3.6L13.1 3 15 4.9z"/></svg>APP</span></b>
+        <span class="chat-status">online &middot; replies instantly</span>
+      </div>
+      <button class="chat-x" id="chat-x" type="button" aria-label="Close chat">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <div class="chat-log" id="chat-log" aria-live="polite"></div>
+    <div class="chat-sugs" id="chat-sugs"></div>
+    <form class="chat-input" id="chat-form">
+      <input type="text" id="chat-text" placeholder="Ask about pricing, hosting, applying&hellip;" maxlength="400" autocomplete="off">
+      <button type="submit" aria-label="Send">
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+    <p class="chat-foot">Automated answers &mdash; for anything binding, <a href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer">join the Discord</a>.</p>
+  </section>
 
   <script src="js/lenis.min.js"></script>
   <script type="module" src="js/bg-fbm.js"></script>
