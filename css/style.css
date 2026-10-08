@@ -1675,3 +1675,11 @@ html.motion-on .hero-h1 .w:hover { transform: translateY(-5px); }
   .footer-mark { font-size: clamp(90px, 26vw, 150px); margin-bottom: -8px; }
   .to-top-fab { right: 18px; bottom: 18px; width: 42px; height: 42px; }
 }
+
+/* deploy version badge */
+.ver {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em;
+  color: var(--dim); border: 1px solid var(--line); border-radius: 6px;
+  padding: 3px 8px; margin-left: 10px; vertical-align: 1px;
+  white-space: nowrap;
+}

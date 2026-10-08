@@ -5,6 +5,7 @@
 const html = document.documentElement;
 const body = document.body;
 const EMAIL = "marko@marko21022.com";
+const SITE_VERSION = "V.1.16";
 
 const motion = true;
 
@@ -650,6 +651,7 @@ function initCursor() {
   document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
+console.log("%cMarko's Commissions V.1.16", "color:#9d9da4;font-family:monospace;");
 html.classList.add("motion-on");
 html.dataset.motion = "on";
 window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));
