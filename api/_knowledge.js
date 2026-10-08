@@ -1,5 +1,6 @@
 /* Site knowledge base + retrieval for the Clanko V2 assistant.
-   Single source of truth for what the bot knows about Marko's Commissions. */
+   Single source of truth for what the bot knows about Marko's Commissions.
+   v2: synonym expansion, word stemming, follow-up context, more entries. */
 
 export const SITE = {
   discord: "https://discord.gg/bj8VqJbYXE",
@@ -11,11 +12,30 @@ export const GREETING =
 
 export const KB = [
   {
+    k: ["who made", "who built", "who created", "who designed", "who developed", "who wrote",
+        "kblasts", "ui.matt", "uimatt", "ui matt", "author", "made this website", "made the website",
+        "built the website", "made this site", "website credit"],
+    a: "This entire website — the design, the code and all of its contents — was made by KBlasts (ui.matt).",
+  },
+  {
+    k: ["what can you do", "what do you know", "help me", "capabilities", "options", "help"],
+    a: "I can answer questions about the services, pricing, hosting, bug fixes, ownership, timelines, the terms, and how applications work. Try me — or ask about anything you see on the site.",
+  },
+  {
     k: ["hi", "hello", "hey", "yo", "sup", "good morning", "good evening"],
     a: "Hey! Ask me about pricing, hosting, bug fixes, applying for the support team — anything that's on the site.",
   },
   {
-    k: ["price", "pricing", "cost", "how much", "expensive", "cheap", "rate", "quote", "charge", "payment", "pay"],
+    k: ["thanks", "thank you", "thx", "appreciated", "appreciate it"],
+    a: "Anytime. Anything else — pricing, hosting, timelines — just ask.",
+  },
+  {
+    k: ["bye", "goodbye", "see you", "later", "cya"],
+    a: "See you around! The Discord (discord.gg/bj8VqJbYXE) is always open if you need anything.",
+    links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
+  },
+  {
+    k: ["price", "pricing", "cost", "how much", "expensive", "rate", "quote", "charge", "payment", "pay"],
     a: "Every project gets a fixed quote in USD once the scope is clear — the price you're quoted is the price you pay. Payment is 50% upfront to reserve a slot and 50% on delivery. Designs under $25 are paid in full upfront.",
     links: [{ label: "Read the terms", href: "/terms" }],
   },
@@ -57,6 +77,11 @@ export const KB = [
     links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
   },
   {
+    k: ["commission", "hire", "order", "get something made", "request work", "start a project"],
+    a: "Commissions are open! Email marko@marko21022.com or join the Discord (discord.gg/bj8VqJbYXE) with your idea — you'll get a fixed quote before any work starts.",
+    links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
+  },
+  {
     k: ["contact", "email", "reach", "speak", "talk to"],
     a: "Discord is fastest: discord.gg/bj8VqJbYXE. Email works too — marko@marko21022.com.",
     links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
@@ -72,12 +97,12 @@ export const KB = [
     links: [{ label: "Read the terms", href: "/terms" }],
   },
   {
-    k: ["clanko", "who are you", "are you", "ai", "human", "real person", "robot"],
+    k: ["clanko", "who are you", "are you", "ai", "human", "real person", "robot", "are you ai"],
     a: "Yep — I'm Clanko V2, Marko's bot. I run this site's assistant; for anything binding or sensitive, a human in the Discord is the way to go.",
     links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
   },
   {
-    k: ["marko", "owner", "who runs", "developer"],
+    k: ["marko", "owner", "who runs", "developer of the bot"],
     a: "Marko runs Marko's Commissions — graphic design and Discord bot services. Fastest way to reach him is the Discord server.",
     links: [{ label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" }],
   },
@@ -86,17 +111,92 @@ export const KB = [
 export const FALLBACK =
   "I don't know that one — but the team will. Ask in the Discord (discord.gg/bj8VqJbYXE) or email marko@marko21022.com.";
 
-export function retrieve(msg) {
-  const t = " " + String(msg).toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim() + " ";
+/* token-level synonyms: query word -> extra meanings to search for */
+const SYN = {
+  money: ["pay", "price", "cost"],
+  pricing: ["price", "cost"],
+  cheaper: ["price", "cost"],
+  fees: ["price", "cost"],
+  expensive: ["price", "cost"],
+  fast: ["time", "deadline", "turnaround"],
+  quick: ["time", "deadline"],
+  soon: ["when", "time"],
+  smart: ["ai"],
+  intelligence: ["ai"],
+  maker: ["made", "author"],
+  builder: ["made", "author"],
+  built: ["made"],
+  created: ["made"],
+  author: ["kblasts", "made"],
+  developer: ["marko"],
+  designer: ["design", "kblasts"],
+  site: ["website"],
+  webpage: ["website"],
+  page: ["website"],
+  hosted: ["hosting", "host", "free"],
+  fix: ["bug"],
+  fixes: ["bug", "fix"],
+  broken: ["bug", "fix"],
+  changes: ["revision"],
+  edits: ["revision"],
+  applying: ["application", "apply"],
+  applications: ["application"],
+  hiring: ["application", "apply"],
+  recruit: ["application"],
+  mods: ["moderation", "application"],
+  tos: ["terms", "rules"],
+  guidelines: ["terms", "rules"],
+  policies: ["terms"],
+  contact: ["email", "discord"],
+  talk: ["contact", "email"],
+  usd: ["price", "payment"],
+};
+
+function stem(w) {
+  return w.length > 4 ? w.replace(/(ing|ed|es|s)$/, "") : w;
+}
+
+function tokens(msg) {
+  return String(msg)
+    .toLowerCase()
+    .replace(/[^a-z0-9$.\s]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(stem);
+}
+
+function expand(toks) {
+  const out = new Set(toks);
+  for (const t of toks) {
+    const extras = SYN[t] || SYN[t.replace(/s$/, "")] || [];
+    for (const extra of extras) out.add(stem(extra));
+  }
+  return out;
+}
+
+export function retrieve(msg, context) {
+  let text = String(msg);
+  const baseTokens = tokens(msg);
+  // follow-up handling: short messages like "what about refunds" lean on context
+  if (baseTokens.length <= 3 && context) {
+    text = text + " " + String(context);
+  }
+  const norm = " " + text.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim() + " ";
+  const toks = expand(tokens(text));
+
   let best = null;
   let bestScore = 0;
   for (const e of KB) {
     let s = 0;
     for (const kw of e.k) {
       if (kw.includes(" ")) {
-        if (t.includes(" " + kw + " ")) s += 4;
-      } else if (t.includes(" " + kw + " ")) {
-        s += 2;
+        if (norm.includes(" " + kw.toLowerCase() + " ")) s += 5;
+        else if (kw.toLowerCase().split(" ").every((w) => norm.includes(" " + w))) s += 3;
+      } else {
+        const skw = stem(kw.toLowerCase());
+        if (norm.includes(" " + kw.toLowerCase() + " ")) s += 3;
+        else if (toks.has(skw)) s += 2;
+        else if ([...toks].some((t) => t.startsWith(skw) && t.length - skw.length <= 2)) s += 1;
       }
     }
     if (s > bestScore) {
@@ -112,6 +212,7 @@ export function systemPrompt() {
   return [
     "You are Clanko V2, the assistant embedded on the Marko's Commissions website",
     "(marko-commissions.vercel.app) — a commission service for graphic design and Discord bots.",
+    "This website — its design, code and contents — was made by KBlasts (ui.matt).",
     "Answer ONLY from the facts below. Be friendly, concise (under 80 words), plain text, no markdown headers.",
     "If a question isn't covered by the facts, say you don't know and point people to the Discord server",
     "(https://discord.gg/bj8VqJbYXE) or the email marko@marko21022.com.",

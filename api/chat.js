@@ -82,7 +82,9 @@ export default async function handler(req, res) {
     }
   }
 
-  const entry = retrieve(message);
+  const lastUser = [...history].reverse().find((m) => m.role === "user");
+  const contextMsg = lastUser ? lastUser.content : "";
+  const entry = retrieve(message, contextMsg);
   if (!entry) {
     return res.status(200).json({ ok: true, reply: FALLBACK, links: [
       { label: "Join the Discord", href: "https://discord.gg/bj8VqJbYXE" },

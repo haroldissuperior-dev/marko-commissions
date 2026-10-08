@@ -1,5 +1,7 @@
 # Marko's Commissions — website
 
+Website design, code and contents by **KBlasts (ui.matt)**.
+
 One-page site for **Marko's Commissions**, a commission service offering
 graphic design and Discord bot services. Static site + a single Vercel
 serverless function — no build step.
