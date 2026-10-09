@@ -6,7 +6,7 @@
   <title>Marko's Commissions — Graphic Design &amp; Bot Services</title>
   <meta name="description" content="Marko's Commissions is a commission service for graphic design and custom Discord bots. Fixed quotes, direct communication, and work delivered finished.">
   <meta name="theme-color" content="#050505">
-  <meta name="version" content="V.1.23">
+  <meta name="version" content="V.1.24">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/logo.png">
 
@@ -70,7 +70,7 @@
       <a class="btn btn-discord" href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer"><img class="btn-ico" src="assets/logos/discord.svg" alt="" width="18" height="18">Join the Discord</a>
       <button class="btn btn-ghost" type="button" data-mail-open>marko@marko21022.com</button>
     </div>
-    <p class="menu-foot"><span class="ver">V.1.23</span> &middot; Clanko V2 chat lives bottom-right</p>
+    <p class="menu-foot"><span class="ver">V.1.24</span> &middot; Clanko V2 chat lives bottom-right</p>
   </div>
 
   <div class="dots" id="dots" aria-hidden="true">
@@ -82,7 +82,10 @@
   <main id="page">
     <section class="hero" id="top">
       <div class="hero-orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i></div>
+      <canvas id="hero-particles" aria-hidden="true"></canvas>
+      <div class="hero-horizon" aria-hidden="true"></div>
       <div class="hero-inner" id="hero-inner">
+        <p class="hero-kicker li">Marko's Commissions</p>
         <div class="hero-logo-wrap li" id="hero-logo-wrap" aria-hidden="true">
           <div class="logo-ring"></div>
           <div class="logo-halo"></div>
@@ -579,7 +582,7 @@
       </div>
     </div>
     <div class="container footer-line">
-      <p>All work quoted and delivered as described in the terms above. <span class="ver">V.1.23</span></p>
+      <p>All work quoted and delivered as described in the terms above. <span class="ver">V.1.24</span></p>
       <a href="#top" class="to-top">Back to top ↑</a>
     </div>
   </footer>
@@ -673,6 +676,7 @@
     <p class="chat-foot">Automated answers &mdash; for anything binding, <a href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer">join the Discord</a>.</p>
   </section>
 
+  <script type="module" src="js/hero-particles.js"></script>
   <script src="js/lenis.min.js"></script>
   <script type="module" src="js/bg-fbm.js"></script>
   <script type="module" src="js/main.js"></script>

@@ -202,7 +202,8 @@ function updateMonitor() {
     mon.sy += (mon.hoverY - mon.sy) * 0.06;
     const rotY = (0.5 - mon.p) * 14 + mon.sx * 3.5;
     const rotX = 6.5 - mon.p * 8 - mon.sy * 2.5;
-    m3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+    const scl = (0.93 + Math.min(mon.p / 0.16, 1) * 0.07).toFixed(3);
+    m3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(${scl})`;
     const phase = Math.min(3, Math.floor(mon.p * 4));
     document.querySelectorAll("[data-scr]").forEach((el) => {
       el.classList.toggle("is-on", Number(el.dataset.scr) === phase);
@@ -375,7 +376,7 @@ if (glow) {
 
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 if (finePointer) {
-  document.querySelectorAll(".card").forEach((card) => {
+  document.querySelectorAll(".card, .tease-card").forEach((card) => {
     card.addEventListener("pointermove", (e) => {
       const r = card.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width;

@@ -1973,3 +1973,27 @@ html.motion-on .footer-mark { animation: mark-breathe 7s ease-in-out infinite; }
   background: linear-gradient(90deg, transparent, rgba(88,101,242,.6), transparent);
 }
 .chat-head { position: relative; overflow: hidden; }
+
+/* hero kicker */
+.hero-kicker {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.44em;
+  text-transform: uppercase; color: var(--mut); margin-bottom: 22px;
+}
+/* particle canvas + horizon stage */
+#hero-particles { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
+.hero-horizon {
+  position: absolute; left: 50%; bottom: 15vh; transform: translateX(-50%);
+  width: min(1150px, 92vw); height: 1px; z-index: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+}
+.hero-horizon::after {
+  content: ""; position: absolute; left: 50%; top: 1px; transform: translateX(-50%);
+  width: 72%; height: 110px;
+  background: radial-gradient(50% 100% at 50% 0%, rgba(255,255,255,.05), transparent 72%);
+  filter: blur(6px);
+}
+/* tease card tilt support */
+.tease-card { transform-style: preserve-3d; }
+/* hero facts hover */
+.hero-facts li { transition: color 0.3s ease, border-color 0.3s ease, transform 0.35s var(--ease); }
+.hero-facts li:hover { color: var(--fg); border-color: var(--line-2); transform: translateY(-2px); }
