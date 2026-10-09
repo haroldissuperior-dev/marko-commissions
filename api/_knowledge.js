@@ -1,6 +1,3 @@
-/* Site knowledge base + retrieval for the Clanko V2 assistant.
-   Single source of truth for what the bot knows about Marko's Commissions.
-   v2: synonym expansion, word stemming, follow-up context, more entries. */
 
 export const SITE = {
   discord: "https://discord.gg/bj8VqJbYXE",
@@ -146,7 +143,6 @@ export const KB = [
 export const FALLBACK =
   "I don't know that one — but the team will. Ask in the Discord (discord.gg/bj8VqJbYXE) or email marko@marko21022.com.";
 
-/* token-level synonyms: query word -> extra meanings to search for */
 const SYN = {
   money: ["pay", "price", "cost"],
   pricing: ["price", "cost"],

@@ -2152,7 +2152,7 @@ html.motion-on .phone { animation: phone-bob 6s ease-in-out infinite alternate; 
   max-width: 86%;
   padding: 9px 12px;
   border-radius: 14px 14px 14px 4px;
-  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
   font-size: 12px; line-height: 1.5; color: #dcdce0;
   opacity: 0; transform: translateY(14px) scale(0.96); filter: blur(5px);
   transition: opacity 0.55s var(--ease), transform 0.55s var(--ease), filter 0.55s var(--ease);
@@ -2313,7 +2313,7 @@ html.motion-on .phone { animation: phone-bob 6s ease-in-out infinite alternate; 
   max-width: 86%;
   padding: 9px 12px;
   border-radius: 14px 14px 14px 4px;
-  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.12);
   font-size: 12px; line-height: 1.5; color: #dcdce0;
   opacity: 0; transform: translateY(14px) scale(0.96); filter: blur(5px);
   transition: opacity 0.55s var(--ease), transform 0.55s var(--ease), filter 0.55s var(--ease);
@@ -2352,4 +2352,62 @@ html.motion-on .phone { animation: phone-bob 6s ease-in-out infinite alternate; 
   .fill-title { font-size: clamp(52px, 15vw, 110px); }
   .phone { width: min(290px, 80vw); }
   .phone-3d { margin-top: 26px; }
+}
+
+/* laptop companion in the opening */
+.devices-space { position: relative; }
+.laptop {
+  position: absolute; right: calc(50% - 615px); top: 42%; z-index: 1;
+  transform: rotate(2.5deg);
+  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.55));
+}
+html.motion-on .laptop { animation: laptop-bob 7s ease-in-out 1s infinite alternate; }
+@keyframes laptop-bob { to { translate: 0 -10px; } }
+.laptop-screen {
+  position: relative; width: 460px; aspect-ratio: 16 / 10;
+  border-radius: 14px; overflow: hidden;
+  background: linear-gradient(180deg, #101013, #0a0a0c);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+}
+.laptop-glare {
+  position: absolute; inset: 0; pointer-events: none; z-index: 3;
+  background: linear-gradient(112deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,.012) 32%, transparent 48%);
+}
+.lp-site { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.lp-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.lp-mark { display: flex; align-items: center; gap: 6px; font-family: var(--disp); font-weight: 600; font-size: 9.5px; color: #f2f3f5; }
+.lp-mark img { width: 12px; height: auto; }
+.lp-links { display: flex; gap: 12px; }
+.lp-links i, .lp-cta, .lp-btns i, .lp-chips i { font-style: normal; }
+.lp-links i { font-size: 8px; color: var(--mut); }
+.lp-cta { font-size: 7.5px; color: #08080a; background: #f4f4f5; border-radius: 999px; padding: 3px 9px; }
+.lp-hero {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 7px; text-align: center; padding: 8px;
+  background: radial-gradient(90% 90% at 50% 30%, rgba(255,255,255,.045), transparent 70%);
+}
+.lp-logo { width: 26px; height: auto; filter: drop-shadow(0 4px 14px rgba(255,255,255,.25)); }
+.lp-title { font-family: var(--disp); font-weight: 700; font-size: 19px; line-height: 1.1; letter-spacing: -0.02em; color: #f4f4f5; }
+.lp-sub { font-size: 8.5px; color: var(--mut); max-width: 250px; }
+.lp-btns { display: flex; gap: 6px; margin-top: 3px; }
+.lp-btns i { font-size: 7.5px; padding: 4px 10px; border-radius: 999px; }
+.lp-b1 { background: #5865f2; color: #fff; }
+.lp-b2 { border: 1px solid rgba(255,255,255,.25); color: #e6e6ea; }
+.lp-chips { display: flex; gap: 5px; margin-top: 4px; }
+.lp-chips i { font-family: var(--mono); font-size: 6.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); border: 1px solid rgba(255,255,255,.1); border-radius: 999px; padding: 3px 8px; }
+.laptop-base {
+  width: 112%; margin-left: -6%; height: 11px;
+  border-radius: 2px 2px 8px 8px;
+  background: linear-gradient(180deg, #17171b, #0a0a0c);
+  border: 1px solid rgba(255,255,255,.13); border-top: 0;
+}
+
+@media (max-width: 1280px) {
+  .laptop { position: static; margin: 30px auto 0; transform: rotate(0deg); width: min(480px, 88vw); display: flex; flex-direction: column; align-items: center; }
+  .laptop-screen { width: 100%; }
+  .laptop-base { width: 100%; margin-left: 0; }
 }
