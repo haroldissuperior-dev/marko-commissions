@@ -5,7 +5,7 @@
 const html = document.documentElement;
 const body = document.body;
 const EMAIL = "marko@marko21022.com";
-const SITE_VERSION = "V.1.26";
+const SITE_VERSION = "V.1.28";
 
 const motion = true;
 
@@ -138,92 +138,58 @@ marquees.forEach((m) => {
   requestAnimationFrame(step);
 })();
 
-/* monitor showcase: scroll rotation + cursor glare/tilt */
-const showcase = document.querySelector(".showcase");
-const m3d = document.getElementById("monitor-3d");
-const screenGlare = document.querySelector(".screen-glare");
-const mon = { p: 0, hoverX: 0, hoverY: 0, sx: 0, sy: 0 };
-let feedTimer = 0;
-let feedHot = -1;
-let typeTimer = 0;
-let lastPhase = -1;
-
-function handleExtras(phase) {
-  document.querySelectorAll("[data-fb]").forEach((el) => {
-    el.classList.toggle("is-on", Number(el.dataset.fb) === phase);
-  });
-
-  if (phase === 2) {
-    if (!feedTimer) {
-      feedTimer = setInterval(() => {
-        const rows = document.querySelectorAll(".feed-row");
-        if (!rows.length) return;
-        feedHot = (feedHot + 1) % rows.length;
-        rows.forEach((r, i) => r.classList.toggle("hot", i === feedHot));
-      }, 1500);
-    }
-  } else if (feedTimer) {
-    clearInterval(feedTimer);
-    feedTimer = 0;
-    document.querySelectorAll(".feed-row").forEach((r) => r.classList.remove("hot"));
-  }
-
-  const ghost = document.querySelector(".mf-text");
-  if (!ghost) return;
-  if (phase === 3) {
-    if (lastPhase !== 3) {
-      clearTimeout(typeTimer);
-      ghost.textContent = "";
-      const msg = "I want to help out.";
-      let i = 0;
-      (function type() {
-        typeTimer = setTimeout(() => {
-          i += 1;
-          ghost.textContent = msg.slice(0, i);
-          if (i < msg.length) type();
-        }, 60);
-      })();
-    }
-  } else {
-    clearTimeout(typeTimer);
-    ghost.textContent = "";
-  }
-  lastPhase = phase;
-}
+/* scroll sections: fill-in wordmark + phone conversation */
+const fillSec = document.getElementById("filltext");
+const ftFill = document.getElementById("ft-fill");
+const phoneshow = document.getElementById("phoneshow");
+const p3d = document.getElementById("phone-3d");
+const screenGlare = document.querySelector(".phone-screen .screen-glare");
+const mon = { p: 0, hoverX: 0, hoverY: 0, sx: 0, sy: 0, lastCount: 0 };
 
 function updateMonitor() {
-  if (!showcase || !m3d) return;
-  const r = showcase.getBoundingClientRect();
-  if (r.top >= window.innerHeight || r.bottom <= 0) return;
   if (motion) {
-    const total = showcase.offsetHeight - window.innerHeight;
-    mon.p = Math.min(Math.max(-r.top / total, 0), 1);
-    mon.sx += (mon.hoverX - mon.sx) * 0.06;
-    mon.sy += (mon.hoverY - mon.sy) * 0.06;
-    const rotY = (0.5 - mon.p) * 14 + mon.sx * 3.5;
-    const rotX = 6.5 - mon.p * 8 - mon.sy * 2.5;
-    const scl = (0.93 + Math.min(mon.p / 0.16, 1) * 0.07).toFixed(3);
-    m3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(${scl})`;
-    const phase = Math.min(3, Math.floor(mon.p * 4));
-    document.querySelectorAll("[data-scr]").forEach((el) => {
-      el.classList.toggle("is-on", Number(el.dataset.scr) === phase);
-    });
-    document.querySelectorAll("[data-cap]").forEach((el) => {
-      el.classList.toggle("is-on", Number(el.dataset.cap) === phase);
-    });
-    const num = document.getElementById("hud-num");
-    if (num) num.textContent = String(phase + 1).padStart(2, "0");
-    handleExtras(phase);
-    if (screenGlare) {
-      screenGlare.style.translate = `${(24 - mon.sx * 34).toFixed(1)}px ${(-14 - mon.sy * 22).toFixed(1)}px`;
+    if (fillSec && ftFill) {
+      const r = fillSec.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        const total = fillSec.offsetHeight - window.innerHeight;
+        const p = Math.min(Math.max(-r.top / total, 0), 1);
+        ftFill.style.clipPath = `inset(0 ${(100 - p * 100).toFixed(1)}% 0 0)`;
+      }
+    }
+    if (phoneshow && p3d) {
+      const r = phoneshow.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        const total = phoneshow.offsetHeight - window.innerHeight;
+        mon.p = Math.min(Math.max(-r.top / total, 0), 1);
+        mon.sx += (mon.hoverX - mon.sx) * 0.06;
+        mon.sy += (mon.hoverY - mon.sy) * 0.06;
+        const rotY = (0.5 - mon.p) * 10 + mon.sx * 4;
+        const rotX = 5 - mon.p * 6 - mon.sy * 3;
+        const scl = (0.92 + Math.min(mon.p / 0.14, 1) * 0.08).toFixed(3);
+        p3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(${scl})`;
+        const revealed = Math.min(4, Math.floor(mon.p * 4) + 1);
+        document.querySelectorAll("[data-msg]").forEach((el) => {
+          el.classList.toggle("is-on", Number(el.dataset.msg) < revealed);
+        });
+        document.querySelectorAll("[data-cap]").forEach((el) => {
+          el.classList.toggle("is-on", Number(el.dataset.cap) === revealed - 1);
+        });
+        const num = document.getElementById("hud-num");
+        if (num && num.textContent !== String(revealed).padStart(2, "0")) {
+          num.textContent = String(revealed).padStart(2, "0");
+        }
+        if (screenGlare) {
+          screenGlare.style.translate = `${(18 - mon.sx * 30).toFixed(1)}px ${(-12 - mon.sy * 20).toFixed(1)}px`;
+        }
+      }
     }
   }
 }
 
-if (m3d) {
+if (p3d) {
   window.addEventListener("pointermove", (e) => {
     if (e.pointerType === "touch") return;
-    const r = m3d.getBoundingClientRect();
+    const r = p3d.getBoundingClientRect();
     if (r.bottom < -200 || r.top > window.innerHeight + 200) return;
     mon.hoverX = (e.clientX / window.innerWidth - 0.5) * 2;
     mon.hoverY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -731,7 +697,7 @@ function initCursor() {
   document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
-console.log("%cMarko's Commissions V.1.26", "color:#9d9da4;font-family:monospace;");
+console.log("%cMarko's Commissions V.1.28", "color:#9d9da4;font-family:monospace;");
 html.classList.add("motion-on");
 html.dataset.motion = "on";
 window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));

@@ -6,7 +6,7 @@
   <title>Marko's Commissions — Graphic Design &amp; Bot Services</title>
   <meta name="description" content="Marko's Commissions is a commission service for graphic design and custom Discord bots. Fixed quotes, direct communication, and work delivered finished.">
   <meta name="theme-color" content="#050505">
-  <meta name="version" content="V.1.26">
+  <meta name="version" content="V.1.28">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="assets/logo.png">
 
@@ -70,7 +70,7 @@
       <a class="btn btn-discord" href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer"><img class="btn-ico" src="assets/logos/discord.svg" alt="" width="18" height="18">Join the Discord</a>
       <button class="btn btn-ghost" type="button" data-mail-open>marko@marko21022.com</button>
     </div>
-    <p class="menu-foot"><span class="ver">V.1.26</span> &middot; Clanko V2 chat lives bottom-right</p>
+    <p class="menu-foot"><span class="ver">V.1.28</span> &middot; Clanko V2 chat lives bottom-right</p>
   </div>
 
   <div class="dots" id="dots" aria-hidden="true">
@@ -80,141 +80,61 @@
   </div>
 
   <main id="page">
-    <section class="hero" id="top">
-      <div class="hero-orbs" aria-hidden="true"><i class="o1"></i><i class="o2"></i><i class="o3"></i></div>
-      <canvas id="hero-particles" aria-hidden="true"></canvas>
-      <div class="hero-horizon" aria-hidden="true"></div>
-      <div class="hero-inner" id="hero-inner">
-        <p class="hero-kicker li">Marko's Commissions</p>
-        <div class="hero-logo-wrap li" id="hero-logo-wrap" aria-hidden="true">
-          <div class="logo-ring"></div>
-          <div class="logo-halo"></div>
-          <img class="hero-logo" src="assets/logo.png" alt="" width="190" height="143" draggable="false">
-        </div>
-        <h1 class="hero-h1" id="hero-h1">
-          <span class="w" style="--d:0">Design</span>
-          <span class="w amp" style="--d:1">&amp;</span>
-          <span class="w" style="--d:2">bots,</span>
-          <span class="w" style="--d:3">done</span>
-          <span class="w" style="--d:4">properly.</span>
-        </h1>
-        <p class="hero-sub li">
-          <b>Marko's</b> Commissions is a commission service for graphic design and
-          Discord bots. Send over an idea, get a fixed quote before anything starts,
-          and regular updates while it's being built.
-        </p>
-        <div class="hero-cta li">
-          <a class="btn btn-discord magnetic" href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer">
-            <img class="btn-ico" src="assets/logos/discord.svg" alt="" width="20" height="20">
-            Join the Discord
-            <svg class="btn-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a class="btn btn-ghost magnetic" href="#showcase">See what we do</a>
-        </div>
-        <ul class="hero-facts li" aria-label="What every commission includes">
-          <li>Fixed quotes</li>
-          <li>3 revisions</li>
-          <li>Free bot hosting</li>
-          <li>Forever bug fixes</li>
-        </ul>
-      </div>
-      <div class="scroll-cue" aria-hidden="true">
-        <span>Scroll</span>
-        <span class="cue-line"><i></i></span>
+    <section class="filltext" id="top">
+      <div class="filltext-sticky">
+        <h2 class="fill-title" aria-label="Marko's Commissions">
+          <span class="ft-outline" aria-hidden="true">Marko's<br>Commissions</span>
+          <span class="ft-fill" id="ft-fill" aria-hidden="true">Marko's<br>Commissions</span>
+        </h2>
+        <p class="fill-hint"><span class="ver">V.1.28</span> keep scrolling</p>
       </div>
     </section>
 
-    <section class="showcase" id="showcase">
-      <div class="showcase-sticky">
+    <section class="phoneshow" id="phoneshow">
+      <div class="phoneshow-sticky">
         <div class="showcase-caption" aria-hidden="true">
-          <span class="cap is-on" data-cap="0">Graphic<br>design</span>
-          <span class="cap" data-cap="1">Discord<br>bots</span>
-          <span class="cap" data-cap="2">Support<br>team</span>
-          <span class="cap" data-cap="3">Stay<br>tuned</span>
+          <span class="cap is-on" data-cap="0">Discord<br><i>native</i></span>
+          <span class="cap" data-cap="1">Built<br><i>for you</i></span>
+          <span class="cap" data-cap="2">Hosted<br><i>free</i></span>
+          <span class="cap" data-cap="3">Always<br><i>on</i></span>
         </div>
 
-        <div class="monitor-3d" id="monitor-3d">
+        <div class="phone-3d" id="phone-3d">
           <div class="monitor-glow" aria-hidden="true"></div>
-          <div class="monitor">
-            <div class="monitor-screen">
-              <div class="screen-topbar" aria-hidden="true">
-                <span class="tb-brand"><img src="assets/logo.png" alt="" width="14" height="11">marko's</span>
-                <span class="tb-nav"><i>work</i><i>terms</i><i>apply</i></span>
-                <span class="tb-live"><i></i>live</span>
-              </div>
-              <div class="screen-ui" aria-hidden="true">
-                <div class="scr is-on" data-scr="0">
-                  <div class="scr-top"><span class="scr-kicker">01 · Design</span><span class="scr-tag">A</span></div>
-                  <div class="brand-board">
-                    <span class="mark tl"></span><span class="mark tr"></span><span class="mark bl"></span><span class="mark br"></span>
-                    <img src="assets/logo.png" alt="" width="88" height="66">
-                    <p class="bb-word"><b>Marko's</b> Commissions</p>
-                    <p class="bb-sub">brand sheet — final</p>
-                  </div>
-                  <div class="type-row">
-                    <span class="t-serif">Playfair Display</span>
-                    <span class="t-grot">Space Grotesk</span>
-                    <span class="t-mono">JetBrains Mono</span>
-                  </div>
-                  <div class="swatches"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-island" aria-hidden="true"></div>
+              <div class="screen-glare" aria-hidden="true"></div>
+              <div class="phone-ui" aria-hidden="true">
+                <div class="ph-head">
+                  <span class="ph-ava"><img src="assets/logo.png" alt="" width="22" height="17"><i class="ph-on"></i></span>
+                  <div class="ph-id"><b>Clanko V2 <span class="app-badge"><svg width="9" height="9" viewBox="0 0 16 16"><path fill="#fff" d="M6.5 13.5 1 8l1.9-1.9 3.6 3.6L13.1 3 15 4.9z"/></svg>APP</span></b><span class="ph-sub">online</span></div>
                 </div>
-                <div class="scr" data-scr="1">
-                  <div class="scr-top"><span class="scr-kicker">02 · Code</span><span class="scr-tag">B</span></div>
-                  <h4 class="scr-title">Discord bots</h4>
-                  <div class="msg-user">just sent my application through the site</div>
-                  <div class="disc-msg">
-                    <span class="disc-ava"><img src="assets/logo.png" alt="" width="20" height="15"><i class="disc-on"></i></span>
-                    <div class="disc-body">
-                      <p class="disc-name">Clanko V2 <span class="app-badge"><svg width="9" height="9" viewBox="0 0 16 16" aria-hidden="true"><path fill="#fff" d="M6.5 13.5 1 8l1.9-1.9 3.6 3.6L13.1 3 15 4.9z"/></svg>APP</span> <span class="disc-time">today at 3:15 PM</span></p>
-                      <div class="disc-embed">
-                        <p class="de-title">Support Team Application</p>
-                        <p class="de-field"><b>Discord:</b> @wanderer</p>
-                        <p class="de-field"><b>Email:</b> wan••••@gmail.com</p>
-                        <p class="de-field"><b>Hours / week:</b> 5 – 10</p>
-                        <p class="de-foot">via website form</p>
-                      </div>
+                <div class="ph-msgs">
+                  <div class="ph-msg user is-on" data-msg="0">just sent my application through the site</div>
+                  <div class="ph-msg bot" data-msg="1">Application received &mdash; you're in the queue.</div>
+                  <div class="ph-msg bot embed" data-msg="2">
+                    <div class="disc-embed">
+                      <p class="de-title">Support Team Application</p>
+                      <p class="de-field"><b>Discord:</b> @wanderer</p>
+                      <p class="de-field"><b>Hours / week:</b> 5 &ndash; 10</p>
+                      <p class="de-foot">via website form</p>
                     </div>
                   </div>
-                  <div class="scr-chipstat"><b>$0</b><span>hosting &amp; bug fixes — forever</span></div>
+                  <div class="ph-msg bot" data-msg="3">You'll hear back on Discord or by email.</div>
                 </div>
-                <div class="scr" data-scr="2">
-                  <div class="scr-top"><span class="scr-kicker">03 · People</span><span class="scr-tag">C</span></div>
-                  <h4 class="scr-title">Support team</h4>
-                  <div class="feed-head"><span>today</span><span><b>12</b> resolved · <b>3</b> open</span></div>
-                  <div class="feed">
-                    <div class="feed-row"><i class="fd-dot"></i><p><b>@kai</b> timed out <b>@ruski_88</b> — spam · 10m</p><span>2m</span></div>
-                    <div class="feed-row"><i class="fd-dot dim"></i><p><b>auto-mod</b> deleted 12 messages in <b>#general</b></p><span>9m</span></div>
-                    <div class="feed-row"><i class="fd-dot dim"></i><p><b>Clanko V2</b> — applications are closed right now</p><span>now</span></div>
-                  </div>
-                  <div class="scr-chipstat"><b>Closed</b><span>new dates announced in the Discord</span></div>
-                </div>
-                <div class="scr" data-scr="3">
-                  <div class="scr-top"><span class="scr-kicker">04 · You</span><span class="scr-tag">D</span></div>
-                  <h4 class="scr-title">Applications closed</h4>
-                  <p class="scr-copy">The support team isn't being recruited right now — reopening dates land in the Discord first, then on this page.</p>
-                  <a class="btn btn-discord scr-btn" href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer" tabindex="-1">Join the Discord</a>
-                </div>
+                <div class="ph-inputbar"><span>Message Clanko V2</span><i></i></div>
               </div>
-              <div class="screen-glare" aria-hidden="true"></div>
-              <div class="screen-scan" aria-hidden="true"></div>
             </div>
-            <div class="monitor-chin"><span class="chin-dot"></span><span class="chin-brand">marko's</span></div>
           </div>
-          <div class="monitor-neck" aria-hidden="true"></div>
-          <div class="monitor-base" aria-hidden="true"></div>
 
           <div class="float-badge" aria-hidden="true">
-            <div class="fb-v is-on" data-fb="0"><span class="fb-check"><svg width="11" height="11" viewBox="0 0 16 16"><path fill="currentColor" d="M6.5 13.5 1 8l1.9-1.9 3.6 3.6L13.1 3 15 4.9z"/></svg></span><span>brand sheet · final</span></div>
-            <div class="fb-v" data-fb="1"><span class="fb-ava"><img src="assets/logo.png" alt="" width="20" height="15"><i></i></span><span>Clanko V2</span></div>
-            <div class="fb-v" data-fb="2"><span class="fb-num">3</span><span>open tickets</span></div>
-            <div class="fb-v" data-fb="3"><span class="fb-num">0</span><span>open applications</span></div>
+            <div class="fb-v is-on"><span class="fb-ava"><img src="assets/logo.png" alt="" width="20" height="15"><i class="fb-on"></i></span><span>Clanko V2</span></div>
           </div>
         </div>
 
-        <div class="showcase-hud" aria-hidden="true">
-          <div class="hud-counter"><b id="hud-num">01</b><span>/ 04</span></div>
-        </div>
-        <p class="showcase-hint">Keep scrolling — the screen follows</p>
+        <div class="showcase-hud"><div class="hud-counter"><b id="hud-num">01</b><span>/ 04</span></div></div>
+        <p class="showcase-hint">keep scrolling &mdash; the conversation follows</p>
       </div>
     </section>
 
@@ -582,7 +502,7 @@
       </div>
     </div>
     <div class="container footer-line">
-      <p>All work quoted and delivered as described in the terms above. <a class="ver" href="https://github.com/haroldissuperior-dev/marko-commissions" target="_blank" rel="noopener noreferrer" title="View the source repository">V.1.26</a></p>
+      <p>All work quoted and delivered as described in the terms above. <a class="ver" href="https://github.com/haroldissuperior-dev/marko-commissions" target="_blank" rel="noopener noreferrer" title="View the source repository">V.1.28</a></p>
       <a href="#top" class="to-top">Back to top ↑</a>
     </div>
   </footer>
@@ -676,7 +596,6 @@
     <p class="chat-foot">Automated answers &mdash; for anything binding, <a href="https://discord.gg/bj8VqJbYXE" target="_blank" rel="noopener noreferrer">join the Discord</a>.</p>
   </section>
 
-  <script type="module" src="js/hero-particles.js"></script>
   <script src="js/lenis.min.js"></script>
   <script type="module" src="js/bg-fbm.js"></script>
   <script type="module" src="js/main.js"></script>
