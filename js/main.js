@@ -5,7 +5,7 @@
 const html = document.documentElement;
 const body = document.body;
 const EMAIL = "marko@marko21022.com";
-const SITE_VERSION = "V.1.28";
+const SITE_VERSION = "V.1.29";
 
 const motion = true;
 
@@ -37,6 +37,8 @@ const heroWords = document.querySelectorAll(".hero-h1 .w");
 const heroTexts = document.querySelectorAll(".hero-sub, .hero-cta, .hero-facts, .hero-logo-wrap");
 const progress = document.getElementById("progress");
 const fab = document.getElementById("to-top-fab");
+const fillEl = document.querySelector(".ft-fill");
+const titleEl = document.querySelector(".fill-title");
 const tl = document.getElementById("tl");
 const tlFill = document.getElementById("tl-fill");
 const watermarks = document.querySelectorAll(".watermark");
@@ -57,12 +59,14 @@ function onScroll(e) {
   else if (dy < -2 || y <= 320) nav.classList.remove("hidden");
   lastY = y;
 
-  // hero exit: drift + fade the block, blur the text elements themselves
-  // (never an ancestor — ancestor filters break the gradient text clip)
-  if (heroInner && motion) {
-    const p = Math.min(Math.max(y / (window.innerHeight * 0.85), 0), 1);
-    heroInner.style.transform = `translateY(${p * 64}px)`;
-    heroInner.style.opacity = String(1 - p * 1.05);
+  // opening choreography: scroll fills the wordmark, gradual blur near exit
+  if (fillEl && titleEl && motion) {
+    const vh = window.innerHeight;
+    const fill = Math.min(Math.max(y / (vh * 0.45), 0), 1);
+    fillEl.style.clipPath = `inset(0 ${(100 - fill * 100).toFixed(1)}% 0 0)`;
+    const exit = Math.min(Math.max((y - vh * 0.34) / (vh * 0.38), 0), 1);
+    titleEl.style.filter = exit > 0.01 ? `blur(${(exit * 16).toFixed(1)}px)` : "";
+    titleEl.style.opacity = exit > 0.01 ? String(1 - exit * 0.4) : "";
   }
 
   // timeline fill follows scroll
@@ -138,59 +142,52 @@ marquees.forEach((m) => {
   requestAnimationFrame(step);
 })();
 
-/* scroll sections: fill-in wordmark + phone conversation */
-const fillSec = document.getElementById("filltext");
-const ftFill = document.getElementById("ft-fill");
-const phoneshow = document.getElementById("phoneshow");
+/* opening: auto-fill wordmark + phone conversation auto-play */
+const ftFill = document.querySelector(".ft-fill");
 const p3d = document.getElementById("phone-3d");
 const screenGlare = document.querySelector(".phone-screen .screen-glare");
-const mon = { p: 0, hoverX: 0, hoverY: 0, sx: 0, sy: 0, lastCount: 0 };
+const mon = { hoverX: 0, hoverY: 0, sx: 0, sy: 0 };
+
+let msgTimer = 0;
+function playMessages() {
+  const msgEls = [...document.querySelectorAll("[data-msg]")];
+  const capEls = [...document.querySelectorAll("[data-cap]")];
+  const hud = document.getElementById("hud-num");
+  if (!msgEls.length) return;
+  const reveal = (i) => {
+    msgEls.forEach((m, j) => m.classList.toggle("is-on", j <= i));
+    capEls.forEach((c, j) => c.classList.toggle("is-on", j === Math.min(i, capEls.length - 1)));
+    if (hud) hud.textContent = String(Math.min(i + 1, 4)).padStart(2, "0");
+  };
+  let i = 0;
+  const step = () => {
+    reveal(i);
+    i += 1;
+    if (i < msgEls.length) msgTimer = setTimeout(step, 1100);
+    else msgTimer = setTimeout(playLoop, 5600);
+  };
+  step();
+}
+function playLoop() {
+  clearTimeout(msgTimer);
+  playMessages();
+}
+setTimeout(playLoop, 2100);
 
 function updateMonitor() {
-  if (motion) {
-    if (fillSec && ftFill) {
-      const r = fillSec.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) {
-        const total = fillSec.offsetHeight - window.innerHeight;
-        const p = Math.min(Math.max(-r.top / total, 0), 1);
-        ftFill.style.clipPath = `inset(0 ${(100 - p * 100).toFixed(1)}% 0 0)`;
-      }
-    }
-    if (phoneshow && p3d) {
-      const r = phoneshow.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) {
-        const total = phoneshow.offsetHeight - window.innerHeight;
-        mon.p = Math.min(Math.max(-r.top / total, 0), 1);
-        mon.sx += (mon.hoverX - mon.sx) * 0.06;
-        mon.sy += (mon.hoverY - mon.sy) * 0.06;
-        const rotY = (0.5 - mon.p) * 10 + mon.sx * 4;
-        const rotX = 5 - mon.p * 6 - mon.sy * 3;
-        const scl = (0.92 + Math.min(mon.p / 0.14, 1) * 0.08).toFixed(3);
-        p3d.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale(${scl})`;
-        const revealed = Math.min(4, Math.floor(mon.p * 4) + 1);
-        document.querySelectorAll("[data-msg]").forEach((el) => {
-          el.classList.toggle("is-on", Number(el.dataset.msg) < revealed);
-        });
-        document.querySelectorAll("[data-cap]").forEach((el) => {
-          el.classList.toggle("is-on", Number(el.dataset.cap) === revealed - 1);
-        });
-        const num = document.getElementById("hud-num");
-        if (num && num.textContent !== String(revealed).padStart(2, "0")) {
-          num.textContent = String(revealed).padStart(2, "0");
-        }
-        if (screenGlare) {
-          screenGlare.style.translate = `${(18 - mon.sx * 30).toFixed(1)}px ${(-12 - mon.sy * 20).toFixed(1)}px`;
-        }
-      }
-    }
+  if (!p3d) return;
+  mon.sx += (mon.hoverX - mon.sx) * 0.05;
+  mon.sy += (mon.hoverY - mon.sy) * 0.05;
+  const sway = Math.sin(performance.now() / 1400) * 2.4;
+  p3d.style.transform = `rotateX(${(-2.5 - mon.sy * 2.5).toFixed(2)}deg) rotateY(${(sway + mon.sx * 4).toFixed(2)}deg)`;
+  if (screenGlare) {
+    screenGlare.style.translate = `${(18 - mon.sx * 30).toFixed(1)}px ${(-12 - mon.sy * 20).toFixed(1)}px`;
   }
 }
 
 if (p3d) {
   window.addEventListener("pointermove", (e) => {
     if (e.pointerType === "touch") return;
-    const r = p3d.getBoundingClientRect();
-    if (r.bottom < -200 || r.top > window.innerHeight + 200) return;
     mon.hoverX = (e.clientX / window.innerWidth - 0.5) * 2;
     mon.hoverY = (e.clientY / window.innerHeight - 0.5) * 2;
   });
@@ -697,7 +694,7 @@ function initCursor() {
   document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
-console.log("%cMarko's Commissions V.1.28", "color:#9d9da4;font-family:monospace;");
+console.log("%cMarko's Commissions V.1.29", "color:#9d9da4;font-family:monospace;");
 html.classList.add("motion-on");
 html.dataset.motion = "on";
 window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));
