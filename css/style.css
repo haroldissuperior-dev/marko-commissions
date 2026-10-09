@@ -2020,3 +2020,18 @@ html.motion-on .footer-mark { animation: mark-breathe 7s ease-in-out infinite; }
 /* hero facts hover */
 .hero-facts li { transition: color 0.3s ease, border-color 0.3s ease, transform 0.35s var(--ease); }
 .hero-facts li:hover { color: var(--fg); border-color: var(--line-2); transform: translateY(-2px); }
+
+/* everything interactable */
+.clickable { cursor: pointer; }
+.why-item {
+  transition: transform 0.4s var(--ease), border-left-color 0.35s ease;
+}
+.why-item:hover { transform: translateY(-3px); border-left-color: rgba(255,255,255,.45); }
+.why-item h4 { transition: color 0.3s ease; }
+.why-item:hover h4::before { color: #fff; }
+.marquee-set span { cursor: pointer; transition: opacity 0.3s ease; }
+.marquee-set span:hover { opacity: 0.55; }
+a.ver { transition: color 0.3s ease, border-color 0.3s ease; }
+a.ver:hover { color: var(--fg); border-color: var(--line-2); }
+.footer-brand { transition: opacity 0.3s ease; }
+.footer-brand:hover { opacity: 0.75; }

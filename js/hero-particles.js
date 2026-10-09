@@ -42,6 +42,20 @@ if (canvas && document.documentElement.classList.contains("motion-on")) {
     rootMargin: "40px",
   }).observe(hero);
 
+  // click burst: spawn a short-lived spark ring at the pointer
+  let bursts = [];
+  hero.addEventListener("pointerdown", (e) => {
+    const r = hero.getBoundingClientRect();
+    const ux = (e.clientX - r.left) / r.width;
+    const uy = (e.clientY - r.top) / r.height;
+    const n = 12;
+    for (let i = 0; i < n; i++) {
+      const ang = (Math.PI * 2 * i) / n + Math.random() * 0.5;
+      const sp = 0.12 + Math.random() * 0.22;
+      bursts.push({ x: ux, y: uy, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, life: 1, z: 0.5 + Math.random() * 0.5, r: 0.6 + Math.random() * 1.2 });
+    }
+  });
+
   window.addEventListener("resize", resize);
   resize();
 
@@ -56,6 +70,18 @@ if (canvas && document.documentElement.classList.contains("motion-on")) {
 
       ctx.clearRect(0, 0, W, H);
       const t = now / 1000;
+      bursts = bursts.filter((b) => b.life > 0);
+      for (const b of bursts) {
+        b.life -= dt * 1.6;
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+        b.vy += dt * 0.12;
+        ctx.beginPath();
+        ctx.arc(b.x * W, b.y * H, b.r * b.z * dpr * b.life, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255," + (b.life * 0.9).toFixed(3) + ")";
+        ctx.fill();
+      }
+
       for (const p of parts) {
         p.x += p.vx * dt * 60;
         p.y += p.vy * dt * 60;

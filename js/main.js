@@ -5,7 +5,7 @@
 const html = document.documentElement;
 const body = document.body;
 const EMAIL = "marko@marko21022.com";
-const SITE_VERSION = "V.1.23";
+const SITE_VERSION = "V.1.26";
 
 const motion = true;
 
@@ -328,6 +328,35 @@ const statsEl = document.getElementById("stats");
 if (statsEl) statsIO.observe(statsEl);
 
 
+/* marquee words navigate to their section */
+const MARQUEE_TARGETS = {
+  "graphic design": "#overview",
+  "discord bots": "#overview",
+  "brand identity": "#overview",
+  "ui / ux": "#overview",
+  "automation": "#overview",
+  "dashboards": "#overview",
+  "emotes & assets": "#overview",
+  "marko's commissions": "top",
+  "support applications open": "#apply",
+};
+document.querySelectorAll(".marquee").forEach((mq) => {
+  mq.style.cursor = "pointer";
+  mq.addEventListener("click", (e) => {
+    const span = e.target.closest(".marquee-set span");
+    if (!span) return;
+    const key = span.textContent.trim().toLowerCase();
+    const target = MARQUEE_TARGETS[key];
+    if (!target) return;
+    if (target === "top") {
+      lenis ? lenis.scrollTo(0, { duration: 1.6 }) : window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const el = document.querySelector(target);
+      if (el) lenis ? lenis.scrollTo(el, { offset: -70, duration: 1.4 }) : el.scrollIntoView({ behavior: "smooth" });
+    }
+  });
+});
+
 const navLinks = new Map([...document.querySelectorAll(".nav-links a")].map((a) => [a.dataset.nav, a]));
 const dots = new Map([...document.querySelectorAll(".dots a")].map((a) => [a.dataset.dot, a]));
 
@@ -490,6 +519,14 @@ document.querySelectorAll(".btn").forEach((btn) => {
   });
 });
 
+
+/* clickable info cards: they ask Clanko V2 the matching question */
+document.querySelectorAll("[data-chat]").forEach((el) => {
+  el.classList.add("clickable");
+  el.addEventListener("click", () => {
+    if (window.clanko) window.clanko.ask(el.dataset.chat);
+  });
+});
 
 const faqItems = document.querySelectorAll(".faq-item");
 faqItems.forEach((item) => {
@@ -694,7 +731,7 @@ function initCursor() {
   document.documentElement.addEventListener("mouseenter", () => (dot.style.opacity = ""));
 }
 
-console.log("%cMarko's Commissions V.1.23", "color:#9d9da4;font-family:monospace;");
+console.log("%cMarko's Commissions V.1.26", "color:#9d9da4;font-family:monospace;");
 html.classList.add("motion-on");
 html.dataset.motion = "on";
 window.dispatchEvent(new CustomEvent("uim-motion", { detail: { on: true } }));
@@ -926,6 +963,11 @@ function initChat() {
     input.value = "";
     ask(v);
   });
+
+  window.clanko = {
+    open: () => setPanel(true),
+    ask: (t) => { setPanel(true); ask(t); },
+  };
 }
 
 initChat();
