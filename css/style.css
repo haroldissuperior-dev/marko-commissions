@@ -151,6 +151,11 @@ html.motion-on .cursor-glow { opacity: 1; }
   position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
   z-index: 90; display: grid; gap: 16px;
 }
+.dots::before {
+  content: ""; position: absolute; left: 50%; top: -22px; bottom: -22px;
+  width: 1px; transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, var(--line) 25%, var(--line) 75%, transparent);
+}
 .dots a {
   position: relative; width: 9px; height: 9px; border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.35); cursor: pointer;
@@ -273,6 +278,12 @@ html.motion-on .menu.open .menu-links a { opacity: 1; transform: none; filter: n
   position: relative; width: 210px; height: 190px;
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 14px;
+}
+.hero-logo-wrap { cursor: pointer; }
+html.motion-on .hero-logo-wrap.spin { animation: logo-spin 0.95s var(--ease); }
+@keyframes logo-spin {
+  0% { transform: perspective(700px) rotateY(0deg); }
+  100% { transform: perspective(700px) rotateY(360deg); }
 }
 html.motion-on .hero-logo-wrap { animation: floaty 7s ease-in-out infinite; }
 @keyframes floaty { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
@@ -501,7 +512,13 @@ html.motion-on .sec-head-center .sec-label.in::before { transform: scaleX(1); }
   padding: 7px 12px; background: rgba(255, 255, 255, 0.03);
 }
 .card-index { font-family: var(--disp); font-weight: 500; font-size: 15px; color: var(--dim); }
-.card h3 { font-family: var(--disp); font-weight: 600; font-size: 27px; letter-spacing: -0.02em; margin-bottom: 14px; }
+.card h3 { font-family: var(--disp); font-weight: 600; font-size: 27px; letter-spacing: -0.02em; margin-bottom: 14px; transform: translateZ(0); transition: transform 0.55s var(--ease); }
+.card .card-copy, .card .card-list, .card .card-foot, .card .card-top { transform: translateZ(0); transition: transform 0.55s var(--ease); }
+.card:hover h3 { transform: translateZ(30px); }
+.card:hover .card-copy { transform: translateZ(20px); }
+.card:hover .card-list { transform: translateZ(14px); }
+.card:hover .card-foot { transform: translateZ(8px); }
+.card:hover .card-top { transform: translateZ(10px); }
 .card-copy { color: var(--mut); font-size: 15px; line-height: 1.68; margin-bottom: 28px; }
 .card-list { display: grid; gap: 11px; }
 .card-list li {
@@ -932,6 +949,8 @@ html.motion-on .rv {
   transition-delay: calc(var(--d, 0) * 85ms);
 }
 html.motion-on .rv.in { opacity: 1; transform: none; filter: none; }
+html.motion-on .cards .card:nth-child(1):not(.in) { transform: translateX(-46px); }
+html.motion-on .cards .card:nth-child(2):not(.in) { transform: translateX(46px); }
 
 /* motion off: kill decorative animations */
 html[data-motion="off"] .marquee-track,
@@ -1685,6 +1704,10 @@ html.motion-on .hero-h1 .w:hover { transform: translateY(-5px); }
 }
 
 /* giant footer wordmark */
+.footer-mark span {
+  display: inline-block; transition: transform 0.3s var(--ease), -webkit-text-stroke-color 0.3s ease;
+  will-change: transform;
+}
 .footer-mark {
   font-family: var(--disp); font-weight: 700;
   font-size: clamp(110px, 19vw, 330px); line-height: 0.82;

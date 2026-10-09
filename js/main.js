@@ -416,6 +416,43 @@ if (finePointer) {
     });
   });
 
+  // footer wordmark letters lift toward the cursor
+  const fm = document.querySelector(".footer-mark");
+  if (fm) {
+    const spans = [...fm.querySelectorAll("span")];
+    let centers = [];
+    const measure = () => {
+      centers = spans.map((sp) => {
+        const r = sp.getBoundingClientRect();
+        return r.left + r.width / 2;
+      });
+    };
+    window.addEventListener("load", measure);
+    window.addEventListener("resize", measure);
+    window.addEventListener("pointermove", (e) => {
+      const r = fm.getBoundingClientRect();
+      if (r.top > innerHeight || r.bottom < 0) return;
+      if (!centers.length) measure();
+      spans.forEach((sp, i) => {
+        const d = Math.abs(e.clientX - (centers[i] || 0));
+        const k = Math.max(0, 1 - d / 260);
+        sp.style.transform = `translateY(${(-24 * k).toFixed(1)}px) scale(${(1 + 0.09 * k).toFixed(3)})`;
+        sp.style.webkitTextStroke = `1px rgba(255, 255, 255, ${(0.075 + 0.3 * k).toFixed(3)})`;
+      });
+    });
+  }
+
+  // logo click: spin easter egg
+  const logoWrap = document.getElementById("hero-logo-wrap");
+  if (logoWrap) {
+    logoWrap.style.cursor = "pointer";
+    logoWrap.addEventListener("click", () => {
+      if (logoWrap.classList.contains("spin")) return;
+      logoWrap.classList.add("spin");
+      setTimeout(() => logoWrap.classList.remove("spin"), 1000);
+    });
+  }
+
   // hero logo mouse tilt (img only — the wrapper owns the load-in transition)
   const logoTilt = document.querySelector(".hero-logo");
   if (logoTilt) {
